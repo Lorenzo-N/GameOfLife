@@ -1,11 +1,16 @@
+import {Pos} from '../models/pos';
 import {Grid} from '../models/grid';
 import {ElementRef} from '@angular/core';
+import {Subject} from 'rxjs';
+import {Cell} from '../models/cell';
 
 export class GridView {
   private readonly ctx: CanvasRenderingContext2D;
-  private x = 0;
-  private y = 0;
+  // private x = 0;
+  // private y = 0;
   private cellSize = 10;
+  private clickSubject = new Subject<Pos>();
+  public onClick$ = this.clickSubject.asObservable();
 
   constructor(canvas: ElementRef<HTMLCanvasElement>, grid: Grid) {
     this.ctx = canvas?.nativeElement?.getContext('2d');
@@ -15,14 +20,14 @@ export class GridView {
     grid.onUpdate$.subscribe(g => this.draw(g));
   }
 
-  draw(grid: number[][]): void {
+  draw(grid: Cell[][]): void {
     const width = this.ctx.canvas.width;
     const height = this.ctx.canvas.height;
     this.ctx.clearRect(0, 0, width, height);
 
     // Draw pos
-    grid.forEach((row, i) => row.forEach((value, j) => {
-      if (value === 1) {
+    grid.forEach((row, i) => row.forEach((cell, j) => {
+      if (cell.value === 1) {
         this.ctx.fillStyle = 'gray';
         this.ctx.fillRect(i * this.cellSize, j * this.cellSize, this.cellSize, this.cellSize);
       }
@@ -39,5 +44,9 @@ export class GridView {
       this.ctx.lineTo(width, y);
     }
     this.ctx.stroke();
+  }
+
+  onClick(event: MouseEvent): void {
+    this.clickSubject.next({x: Math.floor(event.offsetX / this.cellSize), y: Math.floor(event.offsetY / this.cellSize)});
   }
 }

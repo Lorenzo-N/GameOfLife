@@ -1,6 +1,7 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {Grid} from '../../models/grid';
 import {GridView} from '../../views/grid-view';
+import {Pos} from '../../models/pos';
 
 @Component({
   selector: 'app-canvas',
@@ -20,12 +21,12 @@ export class CanvasComponent implements OnInit {
   ngOnInit(): void {
     this.grid = new Grid();
     this.gridView = new GridView(this.canvas, this.grid);
-
+    this.gridView.onClick$.subscribe(pos => this.onGridClick(pos));
     console.log(this.grid);
   }
 
-  onClick(component): void {
-    console.log('Click', component);
-    this.grid.update();
+  onGridClick(pos: Pos): void {
+    console.log('Click', pos);
+    this.grid.setCell(pos);
   }
 }
