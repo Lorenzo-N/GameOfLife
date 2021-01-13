@@ -29,4 +29,8 @@ export class CanvasComponent implements OnInit {
     console.log('Click', pos);
     this.grid.setCell(pos);
   }
+
+  update(): void {
+    this.grid.update();
+  }
 }

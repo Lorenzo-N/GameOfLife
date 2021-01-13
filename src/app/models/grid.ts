@@ -11,7 +11,8 @@ export class Grid {
     for (let i = 0; i < this.size; ++i) {
       const row: Cell[] = [];
       for (let j = 0; j < this.size; ++j) {
-        row.push(new Cell((i + j) % 2));
+        // row.push(new Cell((i + j) % 2));
+        row.push(new Cell(0));
       }
       this.grid.push(row);
     }
@@ -20,14 +21,30 @@ export class Grid {
 
   setCell(pos: Pos): void {
     console.log('set cell');
-    if (this.grid[pos.x]?.[pos.y]) {
-      this.grid[pos.x][pos.y].toggle();
+    if (this.grid[pos.i]?.[pos.j]) {
+      this.grid[pos.i][pos.j].toggle();
     }
     this.updateSubject.next(this.grid);
   }
 
   update(): void {
     console.log('update');
+    // Count neighbors
+    this.grid.forEach((row, i) => row.forEach((cell, j) => {
+      let neighbors = 0;
+      for (let ni = i - 1; ni <= i + 1; ++ni) {
+        for (let nj = j - 1; nj <= j + 1; ++nj) {
+          if ((ni !== i || nj !== j) && this.grid[ni]?.[nj]?.value === 1) {
+            neighbors++;
+          }
+        }
+      }
+      cell.setNeighbors(neighbors);
+    }));
+    // Update cells
+    this.grid.forEach(row => row.forEach(cell => {
+      cell.update();
+    }));
     this.updateSubject.next(this.grid);
   }
 }

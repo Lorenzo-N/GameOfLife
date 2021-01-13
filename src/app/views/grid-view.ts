@@ -46,7 +46,7 @@ export class GridView {
     this.ctx.stroke();
   }
 
-  onClick(event: MouseEvent): void {
-    this.clickSubject.next({x: Math.floor(event.offsetX / this.cellSize), y: Math.floor(event.offsetY / this.cellSize)});
+  click(event: MouseEvent): void {
+    this.clickSubject.next({i: Math.floor(event.offsetX / this.cellSize), j: Math.floor(event.offsetY / this.cellSize)});
   }
 }
