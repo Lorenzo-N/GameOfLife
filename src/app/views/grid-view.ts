@@ -2,9 +2,16 @@ import {Pos} from '../models/pos';
 import {Grid} from '../models/grid';
 import {ElementRef} from '@angular/core';
 import {Subject} from 'rxjs';
-import {Cell} from '../models/cell';
+import {Cell, CellState} from '../models/cell';
 
 export class GridView {
+  private readonly cellsColors = {
+    [CellState.Empty]: '#ffffff',
+    [CellState.IsolationDead]: '#ff000033',
+    [CellState.OverpopulationDead]: '#ee770033',
+    [CellState.Born]: '#007700',
+    [CellState.Living]: '#00cc00'
+  };
   private readonly ctx: CanvasRenderingContext2D;
   // private x = 0;
   // private y = 0;
@@ -30,10 +37,8 @@ export class GridView {
 
     // Draw pos
     grid.forEach((row, i) => row.forEach((cell, j) => {
-      if (cell.value === 1) {
-        this.ctx.fillStyle = 'gray';
-        this.ctx.fillRect(i * this.cellSize, j * this.cellSize, this.cellSize, this.cellSize);
-      }
+      this.ctx.fillStyle = this.cellsColors[cell.getState()];
+      this.ctx.fillRect(i * this.cellSize, j * this.cellSize, this.cellSize, this.cellSize);
     }));
 
     // Draw grid

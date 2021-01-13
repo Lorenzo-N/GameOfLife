@@ -1,6 +1,6 @@
 import {BehaviorSubject} from 'rxjs';
 import {Pos} from './pos';
-import {Cell} from './cell';
+import {Cell, CellState} from './cell';
 
 export class Grid {
   private grid: Cell[][] = [];
@@ -26,7 +26,7 @@ export class Grid {
       let neighbors = 0;
       for (let ni = i - 1; ni <= i + 1; ++ni) {
         for (let nj = j - 1; nj <= j + 1; ++nj) {
-          if ((ni !== i || nj !== j) && this.grid[ni]?.[nj]?.value === 1) {
+          if ((ni !== i || nj !== j) && this.grid[ni]?.[nj]?.isLiving()) {
             neighbors++;
           }
         }
@@ -45,7 +45,7 @@ export class Grid {
     for (let i = 0; i < this.size; ++i) {
       const row: Cell[] = [];
       for (let j = 0; j < this.size; ++j) {
-        row.push(new Cell((i + j) % 2));
+        row.push(new Cell((i + j) % 2 ? CellState.Living : CellState.Empty));
         // row.push(new Cell(0));
       }
       this.grid.push(row);

@@ -5,7 +5,9 @@ import {Grid} from '../models/grid';
   providedIn: 'root'
 })
 export class AnimationService implements OnDestroy {
+  public framesPerUpdate = 10;
   private requestId: number;
+  private framesCounter = 0;
 
   constructor(private ngZone: NgZone) {
   }
@@ -23,7 +25,10 @@ export class AnimationService implements OnDestroy {
   }
 
   private nextFrame(grid: Grid): void {
-    grid.update();
+    this.framesCounter = (this.framesCounter + 1) % this.framesPerUpdate;
+    if (this.framesCounter === 0) {
+      grid.update();
+    }
     this.requestId = requestAnimationFrame(() => this.nextFrame(grid));
   }
 }
