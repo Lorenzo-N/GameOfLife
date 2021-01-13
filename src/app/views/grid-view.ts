@@ -8,7 +8,7 @@ export class GridView {
   private readonly ctx: CanvasRenderingContext2D;
   // private x = 0;
   // private y = 0;
-  private cellSize = 10;
+  private cellSize = 15;
   private clickSubject = new Subject<Pos>();
   public onClick$ = this.clickSubject.asObservable();
 
@@ -25,6 +25,9 @@ export class GridView {
     const height = this.ctx.canvas.height;
     this.ctx.clearRect(0, 0, width, height);
 
+    const gridWidth = Math.min(width, this.cellSize * grid.length);
+    const gridHeight = Math.min(height, this.cellSize * grid[0].length);
+
     // Draw pos
     grid.forEach((row, i) => row.forEach((cell, j) => {
       if (cell.value === 1) {
@@ -35,13 +38,13 @@ export class GridView {
 
     // Draw grid
     this.ctx.beginPath();
-    for (let x = 0; x <= width; x += this.cellSize) {
+    for (let x = 0; x <= gridWidth; x += this.cellSize) {
       this.ctx.moveTo(x, 0);
-      this.ctx.lineTo(x, height);
+      this.ctx.lineTo(x, gridHeight);
     }
-    for (let y = 0; y <= height; y += this.cellSize) {
+    for (let y = 0; y <= gridHeight; y += this.cellSize) {
       this.ctx.moveTo(0, y);
-      this.ctx.lineTo(width, y);
+      this.ctx.lineTo(gridWidth, y);
     }
     this.ctx.stroke();
   }

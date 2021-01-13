@@ -1,2 +1,5 @@
-<canvas #canvas width="500" height="500" (click)="gridView.click($event)" style="margin: 50px;"></canvas>
+<canvas #canvas width="1000" height="800" (click)="gridView.click($event)" style="margin: 50px;"></canvas>
+<button mat-button (click)="start()">Start</button>
+<button mat-button (click)="pause()">Pause</button>
+<button mat-button (click)="clear()">Clear</button>
 <button mat-button (click)="update()">Update</button>
