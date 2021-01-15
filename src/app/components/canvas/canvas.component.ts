@@ -3,6 +3,7 @@ import {Grid} from '../../models/grid';
 import {GridView} from '../../views/grid-view';
 import {Pos} from '../../models/pos';
 import {AnimationService} from '../../services/animation.service';
+import {saveAs} from 'file-saver';
 
 @Component({
   selector: 'app-canvas',
@@ -15,6 +16,7 @@ export class CanvasComponent implements OnInit {
 
   grid: Grid;
   gridView: GridView;
+  readonly defaultSpeed = 50;
 
   constructor(private animationService: AnimationService) {
   }
@@ -23,9 +25,9 @@ export class CanvasComponent implements OnInit {
     this.grid = new Grid();
     this.gridView = new GridView(this.canvas, this.grid);
     this.gridView.onClick$.subscribe(pos => this.onGridClick(pos));
+    this.onSpeedChange(this.defaultSpeed);
     console.log(this.grid);
   }
-
 
   onGridClick(pos: Pos): void {
     console.log('Click', pos);
@@ -46,6 +48,28 @@ export class CanvasComponent implements OnInit {
 
   update(): void {
     this.grid.update();
+  }
+
+  onSpeedChange(speed: number): void {
+    // Map speed [0, 100] to frames per update [51, 1]
+    this.animationService.setFramesPerUpdate(51 - Math.ceil(speed / 2));
+  }
+
+  save(): void {
+    saveAs(new Blob([this.grid.dumps()], {type: 'application/json'}), 'save.json');
+  }
+
+  load(event): void {
+    if (event.target.files && event.target.files.length > 0) {
+      const fileReader = new FileReader();
+      fileReader.onload = (e: any) => {
+        const text = e.target.result;
+        if (text) {
+          this.grid.loads(text);
+        }
+      };
+      fileReader.readAsText(event.target.files[0]);
+    }
   }
 
 }

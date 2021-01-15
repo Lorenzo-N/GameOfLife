@@ -5,7 +5,7 @@ import {Grid} from '../models/grid';
   providedIn: 'root'
 })
 export class AnimationService implements OnDestroy {
-  public framesPerUpdate = 10;
+  private framesPerUpdate = 10;
   private requestId: number;
   private framesCounter = 0;
 
@@ -24,9 +24,14 @@ export class AnimationService implements OnDestroy {
     cancelAnimationFrame(this.requestId);
   }
 
+  setFramesPerUpdate(frames: number): void {
+    this.framesPerUpdate = frames;
+  }
+
   private nextFrame(grid: Grid): void {
-    this.framesCounter = (this.framesCounter + 1) % this.framesPerUpdate;
-    if (this.framesCounter === 0) {
+    this.framesCounter++;
+    if (this.framesCounter >= this.framesPerUpdate) {
+      this.framesCounter = 0;
       grid.update();
     }
     this.requestId = requestAnimationFrame(() => this.nextFrame(grid));

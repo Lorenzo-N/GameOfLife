@@ -52,4 +52,25 @@ export class Grid {
     }
     this.updateSubject.next(this.grid);
   }
+
+  dumps(): string {
+    console.log({
+      size: this.size,
+      grid: this.grid.map(row => row.map(cell => cell.getState()))
+    });
+    return JSON.stringify({
+      size: this.size,
+      grid: this.grid.map(row => row.map(cell => cell.getState()))
+    });
+  }
+
+  loads(data: string): void {
+    try {
+      const obj: { size: number, grid: number[][] } = JSON.parse(data);
+      this.size = obj.size;
+      this.grid = obj.grid.map(row => row.map(cell => new Cell(cell)));
+      this.updateSubject.next(this.grid);
+    } catch (e) {
+    }
+  }
 }
