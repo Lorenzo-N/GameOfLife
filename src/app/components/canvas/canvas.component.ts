@@ -11,8 +11,14 @@ import {saveAs} from 'file-saver';
   styleUrls: ['./canvas.component.scss']
 })
 export class CanvasComponent implements OnInit {
-  @ViewChild('canvas', {static: true})
-  canvas: ElementRef<HTMLCanvasElement>;
+  @ViewChild('gameLayer', {static: true})
+  gameLayer: ElementRef<HTMLCanvasElement>;
+  @ViewChild('gridLayer', {static: true})
+  gridLayer: ElementRef<HTMLCanvasElement>;
+  @ViewChild('hoverLayer', {static: true})
+  hoverLayer: ElementRef<HTMLCanvasElement>;
+  @ViewChild('tooltip', {static: true})
+  tooltip: ElementRef<HTMLDivElement>;
 
   grid: Grid;
   gridView: GridView;
@@ -23,14 +29,14 @@ export class CanvasComponent implements OnInit {
 
   ngOnInit(): void {
     this.grid = new Grid();
-    this.gridView = new GridView(this.canvas, this.grid);
+    this.gridView = new GridView(this.gameLayer, this.gridLayer, this.hoverLayer, this.tooltip, this.grid);
     this.gridView.onClick$.subscribe(pos => this.onGridClick(pos));
     this.onSpeedChange(this.defaultSpeed);
     console.log(this.grid);
   }
 
   onGridClick(pos: Pos): void {
-    console.log('Click', pos);
+    // console.log('Click', pos);
     this.grid.setCell(pos);
   }
 
@@ -39,7 +45,7 @@ export class CanvasComponent implements OnInit {
   }
 
   pause(): void {
-    this.animationService.pause();
+    this.animationService.stop();
   }
 
   clear(): void {

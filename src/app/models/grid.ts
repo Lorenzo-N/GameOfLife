@@ -12,7 +12,6 @@ export class Grid {
   }
 
   setCell(pos: Pos): void {
-    console.log('set cell');
     if (this.grid[pos.i]?.[pos.j]) {
       this.grid[pos.i][pos.j].toggle();
     }
@@ -20,7 +19,7 @@ export class Grid {
   }
 
   update(): void {
-    console.log('update');
+    // console.time('update');
     // Count neighbors
     this.grid.forEach((row, i) => row.forEach((cell, j) => {
       let neighbors = 0;
@@ -37,6 +36,7 @@ export class Grid {
     this.grid.forEach(row => row.forEach(cell => {
       cell.update();
     }));
+    // console.timeEnd('update');
     this.updateSubject.next(this.grid);
   }
 

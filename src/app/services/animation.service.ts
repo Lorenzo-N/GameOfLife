@@ -6,22 +6,24 @@ import {Grid} from '../models/grid';
 })
 export class AnimationService implements OnDestroy {
   private framesPerUpdate = 10;
-  private requestId: number;
+  private intervalId: number;
   private framesCounter = 0;
 
   constructor(private ngZone: NgZone) {
   }
 
   ngOnDestroy(): void {
-    cancelAnimationFrame(this.requestId);
+    this.stop();
   }
 
   start(grid: Grid): void {
-    this.ngZone.runOutsideAngular(() => this.nextFrame(grid));
+    this.ngZone.runOutsideAngular(() => {
+      this.intervalId = setInterval(() => this.nextFrame(grid), 20);
+    });
   }
 
-  pause(): void {
-    cancelAnimationFrame(this.requestId);
+  stop(): void {
+    clearInterval(this.intervalId);
   }
 
   setFramesPerUpdate(frames: number): void {
@@ -34,6 +36,5 @@ export class AnimationService implements OnDestroy {
       this.framesCounter = 0;
       grid.update();
     }
-    this.requestId = requestAnimationFrame(() => this.nextFrame(grid));
   }
 }

@@ -12,49 +12,96 @@ export class GridView {
     [CellState.Born]: '#007700',
     [CellState.Living]: '#00cc00'
   };
-  private readonly ctx: CanvasRenderingContext2D;
-  // private x = 0;
-  // private y = 0;
+  private readonly gameCtx: CanvasRenderingContext2D;
+  private readonly gridCtx: CanvasRenderingContext2D;
+  private readonly hoverCtx: CanvasRenderingContext2D;
+  private readonly tooltip: HTMLDivElement;
   private cellSize = 15;
+  private requestId: number;
+  private width: number;
+  private height: number;
   private clickSubject = new Subject<Pos>();
   public onClick$ = this.clickSubject.asObservable();
 
-  constructor(canvas: ElementRef<HTMLCanvasElement>, grid: Grid) {
-    this.ctx = canvas?.nativeElement?.getContext('2d');
-    if (!this.ctx) {
+  constructor(gameLayer: ElementRef<HTMLCanvasElement>, gridLayer: ElementRef<HTMLCanvasElement>,
+              hoverLayer: ElementRef<HTMLCanvasElement>, tooltip: ElementRef<HTMLDivElement>, grid: Grid) {
+    this.gameCtx = gameLayer?.nativeElement?.getContext('2d');
+    this.gridCtx = gridLayer?.nativeElement?.getContext('2d');
+    this.hoverCtx = hoverLayer?.nativeElement?.getContext('2d');
+    if (!this.gameCtx || !this.gridCtx || !this.hoverCtx) {
       throw new Error('Canvas initialization error');
     }
-    grid.onUpdate$.subscribe(g => this.draw(g));
+    this.tooltip = tooltip.nativeElement;
+    grid.onUpdate$.subscribe(g => {
+      if (!this.requestId) {
+        this.requestId = requestAnimationFrame(() => this.draw(g));
+      }
+    });
   }
 
-  draw(grid: Cell[][]): void {
-    const width = this.ctx.canvas.width;
-    const height = this.ctx.canvas.height;
-    this.ctx.clearRect(0, 0, width, height);
+  onClick(event: MouseEvent): void {
+    this.clickSubject.next(this.mouseEventToPos(event));
+  }
 
-    const gridWidth = Math.min(width, this.cellSize * grid.length);
-    const gridHeight = Math.min(height, this.cellSize * grid[0].length);
+  onMouseMove(event: MouseEvent): void {
+    const pos = this.mouseEventToPos(event);
+    this.tooltip.style.left = (pos.i * this.cellSize - 30) + 'px';
+    this.tooltip.style.top = (pos.j * this.cellSize - 30) + 'px';
+    this.drawHover(pos);
+  }
+
+  onMouseLeave(): void {
+    this.drawHover();
+  }
+
+  private mouseEventToPos(event: MouseEvent): Pos {
+    const rect = this.gameCtx.canvas.getBoundingClientRect();
+    return {
+      i: Math.floor((event.clientX - rect.left) / this.cellSize),
+      j: Math.floor((event.clientY - rect.top) / this.cellSize)
+    };
+  }
+
+  private draw(grid: Cell[][]): void {
+    this.requestId = null;
+    // console.time('draw');
+
+    const width = this.gameCtx.canvas.width;
+    const height = this.gameCtx.canvas.height;
+    this.gameCtx.clearRect(0, 0, width, height);
+
+    this.width = Math.min(width, this.cellSize * grid.length);
+    this.height = Math.min(height, this.cellSize * grid[0].length);
 
     // Draw pos
     grid.forEach((row, i) => row.forEach((cell, j) => {
-      this.ctx.fillStyle = this.cellsColors[cell.getState()];
-      this.ctx.fillRect(i * this.cellSize, j * this.cellSize, this.cellSize, this.cellSize);
+      this.gameCtx.fillStyle = this.cellsColors[cell.getState()];
+      this.gameCtx.fillRect(i * this.cellSize, j * this.cellSize, this.cellSize, this.cellSize);
     }));
 
     // Draw grid
-    this.ctx.beginPath();
-    for (let x = 0; x <= gridWidth; x += this.cellSize) {
-      this.ctx.moveTo(x, 0);
-      this.ctx.lineTo(x, gridHeight);
+    this.gridCtx.clearRect(0, 0, width, height);
+    this.gridCtx.beginPath();
+    for (let x = 0; x <= this.width; x += this.cellSize) {
+      this.gridCtx.moveTo(x, 0);
+      this.gridCtx.lineTo(x, this.height);
     }
-    for (let y = 0; y <= gridHeight; y += this.cellSize) {
-      this.ctx.moveTo(0, y);
-      this.ctx.lineTo(gridWidth, y);
+    for (let y = 0; y <= this.height; y += this.cellSize) {
+      this.gridCtx.moveTo(0, y);
+      this.gridCtx.lineTo(this.width, y);
     }
-    this.ctx.stroke();
+    this.gridCtx.stroke();
+    // console.timeEnd('draw');
   }
 
-  click(event: MouseEvent): void {
-    this.clickSubject.next({i: Math.floor(event.offsetX / this.cellSize), j: Math.floor(event.offsetY / this.cellSize)});
+  private drawHover(pos?: Pos): void {
+    const ctx = this.hoverCtx;
+    const width = ctx.canvas.width;
+    const height = ctx.canvas.height;
+    ctx.clearRect(0, 0, width, height);
+    if (pos && pos.i * this.cellSize < this.width && pos.j * this.cellSize < this.height) {
+      ctx.fillStyle = '#00000033';
+      ctx.fillRect(pos.i * this.cellSize, pos.j * this.cellSize, this.cellSize, this.cellSize);
+    }
   }
 }
