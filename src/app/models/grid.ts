@@ -1,8 +1,10 @@
 import {BehaviorSubject} from 'rxjs';
-import {Pos} from './pos';
-import {Cell, CellState} from './cell';
+import {Pos} from '../interfaces/pos';
+import {Cell} from './cell';
+import {CellState} from '../interfaces/cell-state';
 
 export class Grid {
+  public time = 0;
   private grid: Cell[][] = [];
   private updateSubject = new BehaviorSubject<Cell[][]>(null);
   public onUpdate$ = this.updateSubject.asObservable();
@@ -15,7 +17,12 @@ export class Grid {
     if (this.grid[pos.i]?.[pos.j]) {
       this.grid[pos.i][pos.j].toggle();
     }
+    this.resetHistory();
     this.updateSubject.next(this.grid);
+  }
+
+  getCell(pos: Pos): Cell {
+    return this.grid[pos.i]?.[pos.j];
   }
 
   update(): void {
@@ -37,6 +44,7 @@ export class Grid {
       cell.update();
     }));
     // console.timeEnd('update');
+    this.time++;
     this.updateSubject.next(this.grid);
   }
 
@@ -50,6 +58,7 @@ export class Grid {
       }
       this.grid.push(row);
     }
+    this.resetHistory();
     this.updateSubject.next(this.grid);
   }
 
@@ -72,5 +81,10 @@ export class Grid {
       this.updateSubject.next(this.grid);
     } catch (e) {
     }
+  }
+
+  private resetHistory(): void {
+    this.time = 0;
+    this.grid.forEach(row => row.forEach(cell => cell.resetHistory()));
   }
 }

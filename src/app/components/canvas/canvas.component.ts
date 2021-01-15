@@ -1,7 +1,7 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, NgZone, OnInit, ViewChild} from '@angular/core';
 import {Grid} from '../../models/grid';
 import {GridView} from '../../views/grid-view';
-import {Pos} from '../../models/pos';
+import {Pos} from '../../interfaces/pos';
 import {AnimationService} from '../../services/animation.service';
 import {saveAs} from 'file-saver';
 
@@ -23,8 +23,9 @@ export class CanvasComponent implements OnInit {
   grid: Grid;
   gridView: GridView;
   readonly defaultSpeed = 50;
+  time = 0;
 
-  constructor(private animationService: AnimationService) {
+  constructor(private animationService: AnimationService, private ngZone: NgZone) {
   }
 
   ngOnInit(): void {
@@ -33,6 +34,11 @@ export class CanvasComponent implements OnInit {
     this.gridView.onClick$.subscribe(pos => this.onGridClick(pos));
     this.onSpeedChange(this.defaultSpeed);
     console.log(this.grid);
+    this.grid.onUpdate$.subscribe(() => {
+      this.ngZone.run(() => {
+        this.time = this.grid.time;
+      });
+    });
   }
 
   onGridClick(pos: Pos): void {

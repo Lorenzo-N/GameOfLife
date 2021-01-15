@@ -1,8 +1,9 @@
-import {Pos} from '../models/pos';
+import {Pos} from '../interfaces/pos';
 import {Grid} from '../models/grid';
 import {ElementRef} from '@angular/core';
 import {Subject} from 'rxjs';
-import {Cell, CellState} from '../models/cell';
+import {Cell} from '../models/cell';
+import {CellState} from '../interfaces/cell-state';
 
 export class GridView {
   private readonly cellsColors = {
@@ -22,9 +23,10 @@ export class GridView {
   private height: number;
   private clickSubject = new Subject<Pos>();
   public onClick$ = this.clickSubject.asObservable();
+  private tooltipPos: Pos = null;
 
   constructor(gameLayer: ElementRef<HTMLCanvasElement>, gridLayer: ElementRef<HTMLCanvasElement>,
-              hoverLayer: ElementRef<HTMLCanvasElement>, tooltip: ElementRef<HTMLDivElement>, grid: Grid) {
+              hoverLayer: ElementRef<HTMLCanvasElement>, tooltip: ElementRef<HTMLDivElement>, private grid: Grid) {
     this.gameCtx = gameLayer?.nativeElement?.getContext('2d');
     this.gridCtx = gridLayer?.nativeElement?.getContext('2d');
     this.hoverCtx = hoverLayer?.nativeElement?.getContext('2d');
@@ -36,6 +38,9 @@ export class GridView {
       if (!this.requestId) {
         this.requestId = requestAnimationFrame(() => this.draw(g));
       }
+      if (this.tooltipPos) {
+        this.tooltip.innerText = this.grid.getCell(this.tooltipPos)?.getLivingTime() + '';
+      }
     });
   }
 
@@ -45,13 +50,23 @@ export class GridView {
 
   onMouseMove(event: MouseEvent): void {
     const pos = this.mouseEventToPos(event);
-    this.tooltip.style.left = (pos.i * this.cellSize - 30) + 'px';
-    this.tooltip.style.top = (pos.j * this.cellSize - 30) + 'px';
+    if (pos && pos.i * this.cellSize < this.width && pos.j * this.cellSize < this.height) {
+      this.tooltipPos = pos;
+      this.tooltip.style.visibility = 'visible';
+      this.tooltip.innerText = this.grid.getCell(pos)?.getLivingTime() + '';
+      this.tooltip.style.left = (pos.i * this.cellSize - 30) + 'px';
+      this.tooltip.style.top = (pos.j * this.cellSize - 30) + 'px';
+    } else {
+      this.tooltip.style.visibility = 'hidden';
+      this.tooltipPos = null;
+    }
     this.drawHover(pos);
   }
 
   onMouseLeave(): void {
     this.drawHover();
+    this.tooltip.style.visibility = 'hidden';
+    this.tooltipPos = null;
   }
 
   private mouseEventToPos(event: MouseEvent): Pos {

@@ -1,13 +1,8 @@
-export enum CellState {
-  Empty,
-  IsolationDead,
-  OverpopulationDead,
-  Born,
-  Living
-}
+import {CellState} from '../interfaces/cell-state';
 
 export class Cell {
   private neighbors = 0;
+  private livingTime = 0;
 
   constructor(private state = CellState.Empty) {
   }
@@ -40,5 +35,18 @@ export class Cell {
     } else {
       this.state = CellState.Empty;
     }
+
+    if (this.isLiving()) {
+      this.livingTime++;
+    }
   }
+
+  resetHistory(): void {
+    this.livingTime = this.isLiving() ? 1 : 0;
+  }
+
+  getLivingTime(): number {
+    return this.livingTime;
+  }
+
 }
