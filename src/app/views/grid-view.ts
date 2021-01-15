@@ -1,5 +1,5 @@
 import {Pos} from '../interfaces/pos';
-import {Grid} from '../models/grid';
+import {Game} from '../models/game';
 import {ElementRef} from '@angular/core';
 import {Subject} from 'rxjs';
 import {Cell} from '../models/cell';
@@ -26,7 +26,7 @@ export class GridView {
   private tooltipPos: Pos = null;
 
   constructor(gameLayer: ElementRef<HTMLCanvasElement>, gridLayer: ElementRef<HTMLCanvasElement>,
-              hoverLayer: ElementRef<HTMLCanvasElement>, tooltip: ElementRef<HTMLDivElement>, private grid: Grid) {
+              hoverLayer: ElementRef<HTMLCanvasElement>, tooltip: ElementRef<HTMLDivElement>, private grid: Game) {
     this.gameCtx = gameLayer?.nativeElement?.getContext('2d');
     this.gridCtx = gridLayer?.nativeElement?.getContext('2d');
     this.hoverCtx = hoverLayer?.nativeElement?.getContext('2d');

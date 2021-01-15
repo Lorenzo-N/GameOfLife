@@ -1,5 +1,5 @@
 import {Injectable, NgZone, OnDestroy} from '@angular/core';
-import {Grid} from '../models/grid';
+import {GameService} from './game.service';
 
 @Injectable({
   providedIn: 'root'
@@ -9,16 +9,16 @@ export class AnimationService implements OnDestroy {
   private intervalId: number;
   private framesCounter = 0;
 
-  constructor(private ngZone: NgZone) {
+  constructor(private game: GameService, private ngZone: NgZone) {
   }
 
   ngOnDestroy(): void {
     this.stop();
   }
 
-  start(grid: Grid): void {
+  start(): void {
     this.ngZone.runOutsideAngular(() => {
-      this.intervalId = setInterval(() => this.nextFrame(grid), 20);
+      this.intervalId = setInterval(() => this.nextFrame(), 20);
     });
   }
 
@@ -30,11 +30,11 @@ export class AnimationService implements OnDestroy {
     this.framesPerUpdate = frames;
   }
 
-  private nextFrame(grid: Grid): void {
+  private nextFrame(): void {
     this.framesCounter++;
     if (this.framesCounter >= this.framesPerUpdate) {
       this.framesCounter = 0;
-      grid.update();
+      this.game.update();
     }
   }
 }

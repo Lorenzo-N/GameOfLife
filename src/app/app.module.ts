@@ -7,11 +7,13 @@ import {CanvasComponent} from './components/canvas/canvas.component';
 import {MatButtonModule} from '@angular/material/button';
 import {MatSliderModule} from '@angular/material/slider';
 import {FormsModule} from '@angular/forms';
+import { ControlsComponent } from './components/controls/controls.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    CanvasComponent
+    CanvasComponent,
+    ControlsComponent
   ],
   imports: [
     BrowserModule,

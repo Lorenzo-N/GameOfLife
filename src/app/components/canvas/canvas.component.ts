@@ -1,9 +1,7 @@
-import {Component, ElementRef, NgZone, OnInit, ViewChild} from '@angular/core';
-import {Grid} from '../../models/grid';
+import {Component, ElementRef, NgZone, OnInit, Output, ViewChild, EventEmitter} from '@angular/core';
 import {GridView} from '../../views/grid-view';
+import {GameService} from '../../services/game.service';
 import {Pos} from '../../interfaces/pos';
-import {AnimationService} from '../../services/animation.service';
-import {saveAs} from 'file-saver';
 
 @Component({
   selector: 'app-canvas',
@@ -11,6 +9,8 @@ import {saveAs} from 'file-saver';
   styleUrls: ['./canvas.component.scss']
 })
 export class CanvasComponent implements OnInit {
+  @Output() gridClick = new EventEmitter<Pos>();
+
   @ViewChild('gameLayer', {static: true})
   gameLayer: ElementRef<HTMLCanvasElement>;
   @ViewChild('gridLayer', {static: true})
@@ -20,68 +20,21 @@ export class CanvasComponent implements OnInit {
   @ViewChild('tooltip', {static: true})
   tooltip: ElementRef<HTMLDivElement>;
 
-  grid: Grid;
-  gridView: GridView;
-  readonly defaultSpeed = 50;
+  view: GridView;
   time = 0;
 
-  constructor(private animationService: AnimationService, private ngZone: NgZone) {
+  constructor(public game: GameService, private ngZone: NgZone) {
   }
 
   ngOnInit(): void {
-    this.grid = new Grid();
-    this.gridView = new GridView(this.gameLayer, this.gridLayer, this.hoverLayer, this.tooltip, this.grid);
-    this.gridView.onClick$.subscribe(pos => this.onGridClick(pos));
-    this.onSpeedChange(this.defaultSpeed);
-    console.log(this.grid);
-    this.grid.onUpdate$.subscribe(() => {
+    this.view = new GridView(this.gameLayer, this.gridLayer, this.hoverLayer, this.tooltip, this.game);
+    this.view.onClick$.subscribe(pos => this.gridClick.emit(pos));
+    this.game.onUpdate$.subscribe(() => {
       this.ngZone.run(() => {
-        this.time = this.grid.time;
+        this.time = this.game.time;
       });
     });
   }
 
-  onGridClick(pos: Pos): void {
-    // console.log('Click', pos);
-    this.grid.setCell(pos);
-  }
-
-  start(): void {
-    this.animationService.start(this.grid);
-  }
-
-  pause(): void {
-    this.animationService.stop();
-  }
-
-  clear(): void {
-    this.grid.clear();
-  }
-
-  update(): void {
-    this.grid.update();
-  }
-
-  onSpeedChange(speed: number): void {
-    // Map speed [0, 100] to frames per update [51, 1]
-    this.animationService.setFramesPerUpdate(51 - Math.ceil(speed / 2));
-  }
-
-  save(): void {
-    saveAs(new Blob([this.grid.dumps()], {type: 'application/json'}), 'save.json');
-  }
-
-  load(event): void {
-    if (event.target.files && event.target.files.length > 0) {
-      const fileReader = new FileReader();
-      fileReader.onload = (e: any) => {
-        const text = e.target.result;
-        if (text) {
-          this.grid.loads(text);
-        }
-      };
-      fileReader.readAsText(event.target.files[0]);
-    }
-  }
 
 }

@@ -3,7 +3,8 @@ import {Pos} from '../interfaces/pos';
 import {Cell} from './cell';
 import {CellState} from '../interfaces/cell-state';
 
-export class Grid {
+
+export class Game {
   public time = 0;
   private grid: Cell[][] = [];
   private updateSubject = new BehaviorSubject<Cell[][]>(null);
