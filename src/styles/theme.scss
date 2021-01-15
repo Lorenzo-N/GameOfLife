@@ -1,0 +1,120 @@
+@import '~@angular/material/theming';
+
+@include mat-core();
+
+$green-palette: (
+  50 : #e9f3e4,
+  100 : #c8e2bc,
+  200 : #a3cf90,
+  300 : #7ebc64,
+  400 : #63ad42,
+  500 : #479f21,
+  600 : #40971d,
+  700 : #378d18,
+  800 : #2f8314,
+  900 : #20720b,
+  A100 : #b2ffa4,
+  A200 : #87ff71,
+  A400 : #5cff3e,
+  A700 : #47ff25,
+  contrast: (
+    50 : #000000,
+    100 : #000000,
+    200 : #000000,
+    300 : #000000,
+    400 : #000000,
+    500 : #ffffff,
+    600 : #ffffff,
+    700 : #ffffff,
+    800 : #ffffff,
+    900 : #ffffff,
+    A100 : #000000,
+    A200 : #000000,
+    A400 : #000000,
+    A700 : #000000,
+  )
+);
+
+$yellow-palette: (
+  50 : #fdf8e6,
+  100 : #fbedc2,
+  200 : #f8e199,
+  300 : #f5d470,
+  400 : #f3cb51,
+  500 : #f1c232,
+  600 : #efbc2d,
+  700 : #edb426,
+  800 : #ebac1f,
+  900 : #e79f13,
+  A100 : #ffffff,
+  A200 : #fff4e2,
+  A400 : #ffe2af,
+  A700 : #ffd896,
+  contrast: (
+    50 : #000000,
+    100 : #000000,
+    200 : #000000,
+    300 : #000000,
+    400 : #000000,
+    500 : #000000,
+    600 : #000000,
+    700 : #000000,
+    800 : #000000,
+    900 : #000000,
+    A100 : #000000,
+    A200 : #000000,
+    A400 : #000000,
+    A700 : #000000,
+  )
+);
+
+
+$primary: mat-palette($green-palette);
+$accent: mat-palette($yellow-palette);
+$warn: mat-palette($mat-red);
+
+$app-theme: mat-light-theme((
+  color: (
+    primary: $accent,
+    accent: $primary,
+    warn: $warn
+  )
+));
+
+@include angular-material-theme($app-theme);
+
+html, body {
+  --background: #f9f9f9;
+  --on-background: #111111;
+  --primary: #{mat-color($primary)};
+  --on-primary: #{mat-color($primary, default-contrast)};
+  --accent: #{mat-color($accent)};
+  --on-accent: #{mat-color($accent, default-contrast)};
+  --surface: #ffffff;
+  --on-surface: #000;
+  --success: #26bf4c;
+  --on-success: #fff;
+  --error: #{mat-color($warn)};
+  --on-error: #{mat-color($warn, default-contrast)};
+  --border: rgba(0, 0, 0, 0.12);
+  --tooltip: rgba(255, 255, 255, 0.8);
+  --on-tooltip: #000;
+  --info: rgba(0, 0, 0, 0.54);
+  --size-s: 4px;
+  --size: 8px;
+  --size-l: 16px;
+  --size-xl: 32px;
+}
+
+*::-webkit-scrollbar {
+  width: 10px;
+  height: 12px;
+}
+
+*::-webkit-scrollbar-track {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.2);
+}

@@ -1,8 +1,8 @@
-<button (click)="start()" mat-button>Start</button>
+<button (click)="start()" mat-button><fa-icon icon="play"></fa-icon>Start</button>
 <button (click)="pause()" mat-button>Pause</button>
 <button (click)="clear()" mat-button>Clear</button>
 <button (click)="update()" mat-button>Update</button>
 <button (click)="save()" mat-button>Save</button>
 <button (click)="file.click()" mat-button>Load</button>
-<input #file (change)="load($event)" type="file"/>
+<input #file (change)="load($event)" type="file" class="hide"/>
 <mat-slider (input)="onSpeedChange($event.value)" [value]="defaultSpeed" max="100" min="0" thumbLabel="true"></mat-slider>
