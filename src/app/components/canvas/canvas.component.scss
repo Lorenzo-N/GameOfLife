@@ -25,7 +25,23 @@
     display: block;
     position: absolute;
     padding: .5em 1em;
-    background-color: #f1f1f1;
+    background-color: #ffffff;
     z-index: 10;
+    visibility: hidden;
+    width: 140px;
+    border-radius: var(--size);
+    border: #999999 solid 3px;
+  }
+
+  .tooltip::after {
+    content: " ";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -10px;
+    margin-top: 1px;
+    border-width: 10px;
+    border-style: solid;
+    border-color: #999999 transparent transparent transparent;
   }
 }

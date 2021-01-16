@@ -1,16 +1,16 @@
 import {Injectable, OnDestroy} from '@angular/core';
 import {GameService} from './game.service';
+import {SettingsService} from './settings.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AnimationService implements OnDestroy {
   public isRunning = false;
-  private framesPerUpdate = 10;
   private intervalId: number;
   private framesCounter = 0;
 
-  constructor(private game: GameService) {
+  constructor(private game: GameService, private settings: SettingsService) {
   }
 
   ngOnDestroy(): void {
@@ -27,13 +27,9 @@ export class AnimationService implements OnDestroy {
     this.isRunning = false;
   }
 
-  setFramesPerUpdate(frames: number): void {
-    this.framesPerUpdate = frames;
-  }
-
   private nextFrame(): void {
     this.framesCounter++;
-    if (this.framesCounter >= this.framesPerUpdate) {
+    if (this.framesCounter >= this.settings.framesPerUpdate) {
       this.framesCounter = 0;
       this.game.update();
     }

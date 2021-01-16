@@ -1,6 +1,8 @@
 import {Component, HostBinding} from '@angular/core';
 import {Pos} from './interfaces/pos';
 import {GameService} from './services/game.service';
+import {SettingsService} from './services/settings.service';
+import {GameMode} from './interfaces/game-mode';
 
 @Component({
   selector: 'app-root',
@@ -18,10 +20,14 @@ import {GameService} from './services/game.service';
 export class AppComponent {
   @HostBinding('class') class = 'row flex';
 
-  constructor(private game: GameService) {
+  constructor(private game: GameService, private settings: SettingsService) {
   }
 
   onGridClick(pos: Pos): void {
-    this.game.setCell(pos);
+    if (this.settings.gameMode === GameMode.Toggle || this.settings.gameMode === GameMode.Details) {
+      this.game.setCell(pos);
+    } else {
+      this.game.setCell(pos, this.settings.gameMode === GameMode.Edit);
+    }
   }
 }

@@ -2,6 +2,7 @@ import {Component, ElementRef, EventEmitter, OnInit, Output, ViewChild} from '@a
 import {GridView} from '../../views/grid-view';
 import {GameService} from '../../services/game.service';
 import {Pos} from '../../interfaces/pos';
+import {SettingsService} from '../../services/settings.service';
 
 @Component({
   selector: 'app-canvas',
@@ -22,11 +23,11 @@ export class CanvasComponent implements OnInit {
 
   view: GridView;
 
-  constructor(public game: GameService) {
+  constructor(public game: GameService, private settings: SettingsService) {
   }
 
   ngOnInit(): void {
-    this.view = new GridView(this.gameLayer, this.gridLayer, this.hoverLayer, this.tooltip, this.game);
+    this.view = new GridView(this.gameLayer, this.gridLayer, this.hoverLayer, this.tooltip, this.game, this.settings);
     this.view.onClick$.subscribe(pos => this.gridClick.emit(pos));
   }
 

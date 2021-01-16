@@ -3,6 +3,8 @@ import {CellState} from '../interfaces/cell-state';
 export class Cell {
   private neighbors = 0;
   private livingTime = 0;
+  private lastLivingTime = 0;
+  private lastEmptyTime = 0;
 
   constructor(private state = CellState.Empty) {
   }
@@ -15,8 +17,15 @@ export class Cell {
     return this.state;
   }
 
-  toggle(): void {
-    this.state = this.isLiving() ? CellState.Empty : CellState.Living;
+  // Set state based on living value. If living is null, toggle the cell.
+  set(living: boolean = null): void {
+    if (living) {
+      this.state = CellState.Living;
+    } else if (living === false) {
+      this.state = CellState.Empty;
+    } else {
+      this.state = this.isLiving() ? CellState.Empty : CellState.Living;
+    }
   }
 
   setNeighbors(neighbors: number): void {
@@ -38,15 +47,30 @@ export class Cell {
 
     if (this.isLiving()) {
       this.livingTime++;
+      this.lastLivingTime++;
+      this.lastEmptyTime = 0;
+    } else {
+      this.lastLivingTime = 0;
+      this.lastEmptyTime++;
     }
   }
 
   resetHistory(): void {
     this.livingTime = this.isLiving() ? 1 : 0;
+    this.lastLivingTime = this.livingTime;
+    this.lastEmptyTime = this.isLiving() ? 0 : 1;
   }
 
   getLivingTime(): number {
     return this.livingTime;
+  }
+
+  getLastLivingTime(): number {
+    return this.lastLivingTime;
+  }
+
+  getLastEmptyTime(): number {
+    return this.lastEmptyTime;
   }
 
 }

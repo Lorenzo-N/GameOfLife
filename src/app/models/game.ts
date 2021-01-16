@@ -16,9 +16,10 @@ export class Game {
     this.clear();
   }
 
-  setCell(pos: Pos): void {
+  // Set a cell with living value. If living is null, toggle the cell.
+  setCell(pos: Pos, living: boolean = null): void {
     if (this.grid[pos.i]?.[pos.j]) {
-      this.grid[pos.i][pos.j].toggle();
+      this.grid[pos.i][pos.j].set(living);
     }
     this.resetHistory();
     this.updateSubject.next(this.grid);

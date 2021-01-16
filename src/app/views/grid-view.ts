@@ -4,14 +4,31 @@ import {ElementRef} from '@angular/core';
 import {Subject} from 'rxjs';
 import {Cell} from '../models/cell';
 import {CellState} from '../interfaces/cell-state';
+import {SettingsService} from '../services/settings.service';
+import {GameMode} from '../interfaces/game-mode';
 
 export class GridView {
-  private readonly cellsColors = {
-    [CellState.Empty]: '#ffffff',
-    [CellState.IsolationDead]: '#ff000033',
-    [CellState.OverpopulationDead]: '#ee770033',
-    [CellState.Born]: '#007700',
-    [CellState.Living]: '#00cc00'
+  private readonly statesMap = {
+    [CellState.Empty]: {
+      name: 'Vuota',
+      color: '#ffffff'
+    },
+    [CellState.IsolationDead]: {
+      name: 'Solitudine',
+      color: '#ff000033'
+    },
+    [CellState.OverpopulationDead]: {
+      name: 'Sovrappopolazione',
+      color: '#ee770033'
+    },
+    [CellState.Born]: {
+      name: 'Nascita',
+      color: '#007700'
+    },
+    [CellState.Living]: {
+      name: 'In vita',
+      color: '#00cc00'
+    }
   };
   private readonly gameCtx: CanvasRenderingContext2D;
   private readonly gridCtx: CanvasRenderingContext2D;
@@ -26,7 +43,8 @@ export class GridView {
   private tooltipPos: Pos = null;
 
   constructor(gameLayer: ElementRef<HTMLCanvasElement>, gridLayer: ElementRef<HTMLCanvasElement>,
-              hoverLayer: ElementRef<HTMLCanvasElement>, tooltip: ElementRef<HTMLDivElement>, private grid: Game) {
+              hoverLayer: ElementRef<HTMLCanvasElement>, tooltip: ElementRef<HTMLDivElement>,
+              private grid: Game, private settings: SettingsService) {
     this.gameCtx = gameLayer?.nativeElement?.getContext('2d');
     this.gridCtx = gridLayer?.nativeElement?.getContext('2d');
     this.hoverCtx = hoverLayer?.nativeElement?.getContext('2d');
@@ -39,7 +57,7 @@ export class GridView {
         this.requestId = requestAnimationFrame(() => this.draw(g));
       }
       if (this.tooltipPos) {
-        this.tooltip.innerText = this.grid.getCell(this.tooltipPos)?.getLivingTime() + '';
+        this.setTooltipContent(this.tooltipPos);
       }
     });
   }
@@ -51,11 +69,15 @@ export class GridView {
   onMouseMove(event: MouseEvent): void {
     const pos = this.mouseEventToPos(event);
     if (pos && pos.i * this.cellSize < this.width && pos.j * this.cellSize < this.height) {
-      this.tooltipPos = pos;
-      this.tooltip.style.visibility = 'visible';
-      this.tooltip.innerText = this.grid.getCell(pos)?.getLivingTime() + '';
-      this.tooltip.style.left = (pos.i * this.cellSize - 30) + 'px';
-      this.tooltip.style.top = (pos.j * this.cellSize - 30) + 'px';
+      if (this.settings.gameMode === GameMode.Details) {
+        this.tooltipPos = pos;
+        this.tooltip.style.visibility = 'visible';
+        this.setTooltipContent(pos);
+        this.tooltip.style.left = (pos.i * this.cellSize - 79) + 'px';
+        this.tooltip.style.top = (pos.j * this.cellSize - 85) + 'px';
+      } else if ((event.buttons % 2) === 1 && (this.settings.gameMode === GameMode.Edit || this.settings.gameMode === GameMode.Erase)) {
+        this.clickSubject.next(pos);
+      }
     } else {
       this.tooltip.style.visibility = 'hidden';
       this.tooltipPos = null;
@@ -67,6 +89,18 @@ export class GridView {
     this.drawHover();
     this.tooltip.style.visibility = 'hidden';
     this.tooltipPos = null;
+  }
+
+  private setTooltipContent(pos: Pos): void {
+    const cell = this.grid.getCell(pos);
+    if (cell) {
+      const lastLiving = `<div><span class="info">In vita da:</span><span class="value">${cell.getLastLivingTime()}</span></div>`;
+      const lastEmpty = `<div><span class="info">Vuota da:</span><span class="value">${cell.getLastEmptyTime()}</span></div>`;
+      this.tooltip.innerHTML = `
+            <div><span class="info">Stato:</span><span class="value">${this.statesMap[cell.getState()].name}</span></div>
+            ${cell.isLiving() ? lastLiving : lastEmpty}
+            <div><span class="info">Tempo tot vita:</span><span class="value">${cell.getLivingTime()}</span></div>`;
+    }
   }
 
   private mouseEventToPos(event: MouseEvent): Pos {
@@ -90,7 +124,7 @@ export class GridView {
 
     // Draw pos
     grid.forEach((row, i) => row.forEach((cell, j) => {
-      this.gameCtx.fillStyle = this.cellsColors[cell.getState()];
+      this.gameCtx.fillStyle = this.statesMap[cell.getState()].color;
       this.gameCtx.fillRect(i * this.cellSize, j * this.cellSize, this.cellSize, this.cellSize);
     }));
 

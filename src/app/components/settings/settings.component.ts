@@ -1,33 +1,18 @@
-import {Component, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import {GameService} from '../../services/game.service';
-import {AnimationService} from '../../services/animation.service';
 import {saveAs} from 'file-saver';
-import {MatButtonToggleChange} from '@angular/material/button-toggle';
 import {GameMode} from '../../interfaces/game-mode';
+import {SettingsService} from '../../services/settings.service';
 
 @Component({
   selector: 'app-settings',
   templateUrl: './settings.component.html',
   styleUrls: ['./settings.component.scss']
 })
-export class SettingsComponent implements OnInit {
-  readonly defaultSpeed = 90;
+export class SettingsComponent {
   readonly GameMode = GameMode;
 
-  constructor(private game: GameService, private animationService: AnimationService) {
-  }
-
-  ngOnInit(): void {
-    this.onSpeedChange(this.defaultSpeed);
-  }
-
-  onModeChange(event: MatButtonToggleChange): void {
-    console.log(event.value);
-  }
-
-  onSpeedChange(speed: number): void {
-    // Map speed [0, 100] to frames per update [51, 1]
-    this.animationService.setFramesPerUpdate(51 - Math.ceil(speed / 2));
+  constructor(private game: GameService, public settings: SettingsService) {
   }
 
   save(): void {
