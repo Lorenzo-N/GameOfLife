@@ -9,9 +9,24 @@ import {MatSliderModule} from '@angular/material/slider';
 import {FormsModule} from '@angular/forms';
 import {ControlsComponent} from './components/controls/controls.component';
 import {FaConfig, FaIconLibrary, FontAwesomeModule} from '@fortawesome/angular-fontawesome';
-import {faPause, faPlay, faStepForward, faTimes, faUndoAlt} from '@fortawesome/free-solid-svg-icons';
+import {
+  faArchive,
+  faEraser,
+  faFileUpload,
+  faHandPointer, faPalette,
+  faPause,
+  faPen,
+  faPlay,
+  faSave,
+  faSearch,
+  faStepForward, faTachometerAlt,
+  faTimes,
+  faUndoAlt
+} from '@fortawesome/free-solid-svg-icons';
 import {SettingsComponent} from './components/settings/settings.component';
-
+import {MatButtonToggleModule} from '@angular/material/button-toggle';
+import {MatMenuModule} from '@angular/material/menu';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 
 @NgModule({
   declarations: [
@@ -24,7 +39,10 @@ import {SettingsComponent} from './components/settings/settings.component';
     BrowserModule,
     BrowserAnimationsModule,
     MatButtonModule,
+    MatButtonToggleModule,
+    MatMenuModule,
     MatSliderModule,
+    MatSlideToggleModule,
     FormsModule,
     FontAwesomeModule
   ],
@@ -33,7 +51,8 @@ import {SettingsComponent} from './components/settings/settings.component';
 })
 export class AppModule {
   constructor(library: FaIconLibrary, faConfig: FaConfig) {
-    library.addIcons(faPlay, faPause, faStepForward, faUndoAlt, faTimes);
+    library.addIcons(faPlay, faPause, faStepForward, faUndoAlt, faTimes, faPen, faEraser,
+      faSearch, faHandPointer, faSave, faFileUpload, faArchive, faTachometerAlt, faPalette);
     faConfig.fixedWidth = true;
   }
 }

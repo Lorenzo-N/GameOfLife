@@ -1,4 +1,62 @@
-<button (click)="save()" mat-button>Save</button>
-<button (click)="file.click()" mat-button>Load</button>
+<div class="title row center-y">
+  Modalità
+  <div class="flex"></div>
+</div>
+<mat-button-toggle-group (change)="onModeChange($event)" vertical class="margin margin-x-l" [value]="GameMode.Toggle">
+  <mat-button-toggle [value]="GameMode.Toggle">
+    <fa-icon icon="hand-pointer"></fa-icon>
+    <span class="text">Toggle</span>
+  </mat-button-toggle>
+  <mat-button-toggle [value]="GameMode.Details">
+    <fa-icon icon="search"></fa-icon>
+    <span class="text">Dettagli</span>
+  </mat-button-toggle>
+  <mat-button-toggle [value]="GameMode.Edit">
+    <fa-icon icon="pen"></fa-icon>
+    <span class="text">Penna</span>
+  </mat-button-toggle>
+  <mat-button-toggle [value]="GameMode.Erase">
+    <fa-icon icon="eraser"></fa-icon>
+    <span class="text">Gomma</span>
+  </mat-button-toggle>
+</mat-button-toggle-group>
+
+<div class="title row center-y">
+  Carica/Salva
+  <div class="flex"></div>
+</div>
+
+<button mat-stroked-button [matMenuTriggerFor]="examples" color="primary" class="margin margin-x-l">
+  <fa-icon icon="archive"></fa-icon>
+  Esempi
+</button>
+<button mat-raised-button (click)="save()" color="primary" class="margin margin-x-l">
+  <fa-icon icon="save"></fa-icon>
+  Salva
+</button>
+<button mat-raised-button (click)="file.click()" class="margin margin-x-l">
+  <fa-icon icon="file-upload"></fa-icon>
+  Carica
+</button>
+
 <input #file (change)="load($event)" type="file" class="hide"/>
-<mat-slider (input)="onSpeedChange($event.value)" [value]="defaultSpeed" max="100" min="0" thumbLabel="true"></mat-slider>
+
+<div class="title row center-y">
+  Opzioni
+  <div class="flex"></div>
+</div>
+<div class="row center-y">
+  <fa-icon icon="tachometer-alt"></fa-icon>
+  <mat-slider (input)="onSpeedChange($event.value)" [value]="defaultSpeed" max="100" min="0" thumbLabel="true"></mat-slider>
+</div>
+
+<mat-slide-toggle labelPosition="before">
+  <fa-icon icon="palette"></fa-icon>
+  <span class="margin-x">Colori</span>
+</mat-slide-toggle>
+
+<!--Menu-->
+<mat-menu #examples="matMenu">
+  <button mat-menu-item>Item 1</button>
+  <button mat-menu-item>Item 2</button>
+</mat-menu>

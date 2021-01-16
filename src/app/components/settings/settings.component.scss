@@ -1,0 +1,32 @@
+:host {
+  width: 150px;
+  border-right: 1px solid var(--border);
+}
+
+.title {
+  font-weight: 400;
+  font-size: 13px;
+  color: #00000099;
+
+  &:not(:first-child) {
+    margin-top: var(--size-l);
+  }
+
+  div {
+    border-top: 1px solid var(--border);
+    margin-left: var(--size);
+  }
+}
+
+fa-icon {
+  color: #00000099;
+}
+
+mat-button-toggle-group {
+  span.text {
+    display: inline-block;
+    width: 65px;
+    text-align: left;
+    margin-left: var(--size);
+  }
+}

@@ -2,6 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {GameService} from '../../services/game.service';
 import {AnimationService} from '../../services/animation.service';
 import {saveAs} from 'file-saver';
+import {MatButtonToggleChange} from '@angular/material/button-toggle';
+import {GameMode} from '../../interfaces/game-mode';
 
 @Component({
   selector: 'app-settings',
@@ -10,12 +12,17 @@ import {saveAs} from 'file-saver';
 })
 export class SettingsComponent implements OnInit {
   readonly defaultSpeed = 90;
+  readonly GameMode = GameMode;
 
   constructor(private game: GameService, private animationService: AnimationService) {
   }
 
   ngOnInit(): void {
     this.onSpeedChange(this.defaultSpeed);
+  }
+
+  onModeChange(event: MatButtonToggleChange): void {
+    console.log(event.value);
   }
 
   onSpeedChange(speed: number): void {

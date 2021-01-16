@@ -130,3 +130,11 @@ button.size-xl {
   width: 70px !important;
   font-size: 30px !important;
 }
+
+.mat-slide-toggle-label {
+  padding-right: 12px;
+
+  .mat-slide-toggle-content {
+    flex: 1;
+  }
+}
