@@ -9,14 +9,16 @@ import {MatSliderModule} from '@angular/material/slider';
 import {FormsModule} from '@angular/forms';
 import {ControlsComponent} from './components/controls/controls.component';
 import {FaConfig, FaIconLibrary, FontAwesomeModule} from '@fortawesome/angular-fontawesome';
-import {faPlay} from '@fortawesome/free-solid-svg-icons';
+import {faPause, faPlay, faStepForward, faTimes, faUndoAlt} from '@fortawesome/free-solid-svg-icons';
+import {SettingsComponent} from './components/settings/settings.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     CanvasComponent,
-    ControlsComponent
+    ControlsComponent,
+    SettingsComponent
   ],
   imports: [
     BrowserModule,
@@ -31,7 +33,7 @@ import {faPlay} from '@fortawesome/free-solid-svg-icons';
 })
 export class AppModule {
   constructor(library: FaIconLibrary, faConfig: FaConfig) {
-    library.addIcons(faPlay);
+    library.addIcons(faPlay, faPause, faStepForward, faUndoAlt, faTimes);
     faConfig.fixedWidth = true;
   }
 }

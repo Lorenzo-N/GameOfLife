@@ -6,6 +6,8 @@ import {CellState} from '../interfaces/cell-state';
 
 export class Game {
   public time = 0;
+  public population = 0;
+  private initialGridDump: string;
   private grid: Cell[][] = [];
   private updateSubject = new BehaviorSubject<Cell[][]>(null);
   public onUpdate$ = this.updateSubject.asObservable();
@@ -40,9 +42,13 @@ export class Game {
       }
       cell.setNeighbors(neighbors);
     }));
-    // Update cells
+    // Update cells and info
+    this.population = 0;
     this.grid.forEach(row => row.forEach(cell => {
       cell.update();
+      if (cell.isLiving()) {
+        this.population++;
+      }
     }));
     // console.timeEnd('update');
     this.time++;
@@ -79,13 +85,25 @@ export class Game {
       const obj: { size: number, grid: number[][] } = JSON.parse(data);
       this.size = obj.size;
       this.grid = obj.grid.map(row => row.map(cell => new Cell(cell)));
+      this.resetHistory();
       this.updateSubject.next(this.grid);
     } catch (e) {
     }
   }
 
+  resetInitialGrid(): void {
+    this.loads(this.initialGridDump);
+  }
+
   private resetHistory(): void {
     this.time = 0;
-    this.grid.forEach(row => row.forEach(cell => cell.resetHistory()));
+    this.population = 0;
+    this.grid.forEach(row => row.forEach(cell => {
+      cell.resetHistory();
+      if (cell.isLiving()) {
+        this.population++;
+      }
+    }));
+    this.initialGridDump = this.dumps();
   }
 }

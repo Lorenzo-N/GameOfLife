@@ -1,15 +1,16 @@
-import {Injectable, NgZone, OnDestroy} from '@angular/core';
+import {Injectable, OnDestroy} from '@angular/core';
 import {GameService} from './game.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AnimationService implements OnDestroy {
+  public isRunning = false;
   private framesPerUpdate = 10;
   private intervalId: number;
   private framesCounter = 0;
 
-  constructor(private game: GameService, private ngZone: NgZone) {
+  constructor(private game: GameService) {
   }
 
   ngOnDestroy(): void {
@@ -17,13 +18,13 @@ export class AnimationService implements OnDestroy {
   }
 
   start(): void {
-    this.ngZone.runOutsideAngular(() => {
-      this.intervalId = setInterval(() => this.nextFrame(), 20);
-    });
+    this.intervalId = setInterval(() => this.nextFrame(), 20);
+    this.isRunning = true;
   }
 
   stop(): void {
     clearInterval(this.intervalId);
+    this.isRunning = false;
   }
 
   setFramesPerUpdate(frames: number): void {

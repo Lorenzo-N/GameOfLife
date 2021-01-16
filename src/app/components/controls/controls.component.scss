@@ -1,0 +1,17 @@
+.name {
+  font-weight: bold;
+  font-size: 15px;
+}
+
+.info {
+  color: var(--info);
+  font-size: 13px;
+}
+
+.value {
+  display: inline-block;
+  width: 40px;
+  font-size: 13px;
+  font-weight: 500;
+  margin-left: var(--size-s);
+}

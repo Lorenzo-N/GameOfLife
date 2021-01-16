@@ -9,7 +9,7 @@ import {GameService} from './services/game.service';
       <img src="assets/logo.png" alt="logo" height="50px">
     </div>
     <app-canvas (gridClick)="onGridClick($event)" class="col flex overflow-hidden"></app-canvas>
-    <app-controls class="row border-top bg-surface padding-l"></app-controls>`
+    <app-controls class="row border-top bg-surface padding center-x"></app-controls>`
 })
 export class AppComponent {
   @HostBinding('class') class = 'col flex';

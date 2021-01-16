@@ -1,4 +1,4 @@
-import {Component, ElementRef, NgZone, OnInit, Output, ViewChild, EventEmitter} from '@angular/core';
+import {Component, ElementRef, EventEmitter, OnInit, Output, ViewChild} from '@angular/core';
 import {GridView} from '../../views/grid-view';
 import {GameService} from '../../services/game.service';
 import {Pos} from '../../interfaces/pos';
@@ -21,19 +21,13 @@ export class CanvasComponent implements OnInit {
   tooltip: ElementRef<HTMLDivElement>;
 
   view: GridView;
-  time = 0;
 
-  constructor(public game: GameService, private ngZone: NgZone) {
+  constructor(public game: GameService) {
   }
 
   ngOnInit(): void {
     this.view = new GridView(this.gameLayer, this.gridLayer, this.hoverLayer, this.tooltip, this.game);
     this.view.onClick$.subscribe(pos => this.gridClick.emit(pos));
-    this.game.onUpdate$.subscribe(() => {
-      this.ngZone.run(() => {
-        this.time = this.game.time;
-      });
-    });
   }
 
 

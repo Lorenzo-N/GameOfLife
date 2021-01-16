@@ -1,6 +1,5 @@
-import {Component, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import {AnimationService} from '../../services/animation.service';
-import {saveAs} from 'file-saver';
 import {GameService} from '../../services/game.service';
 
 @Component({
@@ -8,51 +7,29 @@ import {GameService} from '../../services/game.service';
   templateUrl: './controls.component.html',
   styleUrls: ['./controls.component.scss']
 })
-export class ControlsComponent implements OnInit {
-  readonly defaultSpeed = 50;
+export class ControlsComponent {
 
-  constructor(private game: GameService, private animationService: AnimationService) {
+  constructor(public game: GameService, public animationService: AnimationService) {
   }
 
-  ngOnInit(): void {
-    this.onSpeedChange(this.defaultSpeed);
+  toggleAnimation(): void {
+    if (this.animationService.isRunning) {
+      this.animationService.stop();
+    } else {
+      this.animationService.start();
+    }
   }
 
-  start(): void {
-    this.animationService.start();
-  }
-
-  pause(): void {
-    this.animationService.stop();
-  }
-
-  clear(): void {
-    this.game.clear();
+  reset(): void {
+    if (this.game.time === 0) {
+      this.game.clear();
+    } else {
+      this.game.resetInitialGrid();
+    }
   }
 
   update(): void {
     this.game.update();
   }
 
-  onSpeedChange(speed: number): void {
-    // Map speed [0, 100] to frames per update [51, 1]
-    this.animationService.setFramesPerUpdate(51 - Math.ceil(speed / 2));
-  }
-
-  save(): void {
-    saveAs(new Blob([this.game.dumps()], {type: 'application/json'}), 'save.json');
-  }
-
-  load(event): void {
-    if (event.target.files && event.target.files.length > 0) {
-      const fileReader = new FileReader();
-      fileReader.onload = (e: any) => {
-        const text = e.target.result;
-        if (text) {
-          this.game.loads(text);
-        }
-      };
-      fileReader.readAsText(event.target.files[0]);
-    }
-  }
 }

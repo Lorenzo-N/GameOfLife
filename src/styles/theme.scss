@@ -118,3 +118,15 @@ html, body {
 *::-webkit-scrollbar-thumb {
   background-color: rgba(0, 0, 0, 0.2);
 }
+
+button.size-l {
+  height: 50px !important;
+  width: 50px !important;
+  font-size: 20px !important;
+}
+
+button.size-xl {
+  height: 70px !important;
+  width: 70px !important;
+  font-size: 30px !important;
+}
