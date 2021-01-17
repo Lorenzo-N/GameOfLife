@@ -3,6 +3,7 @@ import {GameService} from '../../services/game.service';
 import {saveAs} from 'file-saver';
 import {GameMode} from '../../interfaces/game-mode';
 import {SettingsService} from '../../services/settings.service';
+import {examples} from '../../examples/examples';
 
 @Component({
   selector: 'app-settings',
@@ -11,8 +12,10 @@ import {SettingsService} from '../../services/settings.service';
 })
 export class SettingsComponent {
   readonly GameMode = GameMode;
+  readonly examples = examples;
 
   constructor(private game: GameService, public settings: SettingsService) {
+    this.loadExample(examples[0]);
   }
 
   save(): void {
@@ -21,14 +24,21 @@ export class SettingsComponent {
 
   load(event): void {
     if (event.target.files && event.target.files.length > 0) {
+      const file = event.target.files[0];
       const fileReader = new FileReader();
       fileReader.onload = (e: any) => {
         const text = e.target.result;
         if (text) {
+          this.settings.name = file.name.replace('.json', '');
           this.game.loads(text);
         }
       };
-      fileReader.readAsText(event.target.files[0]);
+      fileReader.readAsText(file);
     }
+  }
+
+  loadExample(example: { data: string; name: string }): void {
+    this.settings.name = example.name;
+    this.game.loads(example.data);
   }
 }

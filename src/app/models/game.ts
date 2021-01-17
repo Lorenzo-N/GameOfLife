@@ -1,7 +1,6 @@
 import {BehaviorSubject} from 'rxjs';
 import {Pos} from '../interfaces/pos';
 import {Cell} from './cell';
-import {CellState} from '../interfaces/cell-state';
 
 
 export class Game {
@@ -44,7 +43,6 @@ export class Game {
   }
 
   update(): void {
-    // console.time('update');
     // Count neighbors
     this.grid.forEach((row, i) => row.forEach((cell, j) => {
       let neighbors = 0;
@@ -65,7 +63,6 @@ export class Game {
         this.population++;
       }
     }));
-    // console.timeEnd('update');
     this.time++;
     this.updateSubject.next(this.grid);
   }
@@ -75,8 +72,8 @@ export class Game {
     for (let i = 0; i < this.width; ++i) {
       const row: Cell[] = [];
       for (let j = 0; j < this.height; ++j) {
-        row.push(new Cell((i + j) % 2 ? CellState.Living : CellState.Empty));
-        // row.push(new Cell(0));
+        // row.push(new Cell((i + j) % 2 ? CellState.Living : CellState.Empty));
+        row.push(new Cell());
       }
       this.grid.push(row);
     }
@@ -85,11 +82,6 @@ export class Game {
   }
 
   dumps(): string {
-    console.log({
-      width: this.width,
-      height: this.height,
-      grid: this.grid.map(row => row.map(cell => cell.getState()))
-    });
     return JSON.stringify({
       width: this.width,
       height: this.height,

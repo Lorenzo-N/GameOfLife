@@ -20,9 +20,10 @@ export class GridLayer {
       this.ctx.canvas.height = this.gridInfo.canvasHeight;
     }
     this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
+    this.ctx.strokeStyle = '#7a7a7a';
+    this.ctx.beginPath();
     if (this.settings.grid) {
-      this.ctx.strokeStyle = '#7a7a7a';
-      this.ctx.beginPath();
+      // Draw grid
       for (let x = 0; x <= this.gridInfo.width; x += this.gridInfo.cellSize) {
         this.ctx.moveTo(this.gridInfo.x + x, this.gridInfo.y);
         this.ctx.lineTo(this.gridInfo.x + x, this.gridInfo.y + this.gridInfo.height);
@@ -31,7 +32,14 @@ export class GridLayer {
         this.ctx.moveTo(this.gridInfo.x, this.gridInfo.y + y);
         this.ctx.lineTo(this.gridInfo.x + this.gridInfo.width, this.gridInfo.y + y);
       }
-      this.ctx.stroke();
+    } else {
+      // Draw border only
+      this.ctx.moveTo(this.gridInfo.x, this.gridInfo.y);
+      this.ctx.lineTo(this.gridInfo.x + this.gridInfo.width, this.gridInfo.y);
+      this.ctx.lineTo(this.gridInfo.x + this.gridInfo.width, this.gridInfo.y + this.gridInfo.height);
+      this.ctx.lineTo(this.gridInfo.x, this.gridInfo.y + this.gridInfo.height);
+      this.ctx.lineTo(this.gridInfo.x, this.gridInfo.y);
     }
+    this.ctx.stroke();
   }
 }

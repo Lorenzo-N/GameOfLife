@@ -24,6 +24,7 @@ export class AppComponent {
   }
 
   onGridClick(pos: Pos): void {
+    this.settings.name = 'Schema manuale';
     if (this.settings.gameMode === GameMode.Toggle || this.settings.gameMode === GameMode.Details) {
       this.game.setCell(pos);
     } else {

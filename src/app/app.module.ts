@@ -11,15 +11,22 @@ import {ControlsComponent} from './components/controls/controls.component';
 import {FaConfig, FaIconLibrary, FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 import {
   faArchive,
+  faChess,
+  faCogs,
+  faCrosshairs,
   faEraser,
   faFileUpload,
-  faHandPointer, faPalette,
+  faGamepad,
+  faGem,
+  faHandPointer,
+  faPalette,
   faPause,
   faPen,
   faPlay,
   faSave,
   faSearch,
-  faStepForward, faTachometerAlt,
+  faStepForward,
+  faTachometerAlt,
   faTimes,
   faUndoAlt
 } from '@fortawesome/free-solid-svg-icons';
@@ -27,6 +34,7 @@ import {SettingsComponent} from './components/settings/settings.component';
 import {MatButtonToggleModule} from '@angular/material/button-toggle';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import {faHubspot} from '@fortawesome/free-brands-svg-icons';
 
 @NgModule({
   declarations: [
@@ -51,8 +59,8 @@ import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 })
 export class AppModule {
   constructor(library: FaIconLibrary, faConfig: FaConfig) {
-    library.addIcons(faPlay, faPause, faStepForward, faUndoAlt, faTimes, faPen, faEraser,
-      faSearch, faHandPointer, faSave, faFileUpload, faArchive, faTachometerAlt, faPalette);
+    library.addIcons(faPlay, faPause, faStepForward, faUndoAlt, faTimes, faPen, faEraser, faCrosshairs, faGamepad, faCogs,
+      faSearch, faHandPointer, faSave, faFileUpload, faArchive, faTachometerAlt, faPalette, faChess, faGem, faHubspot);
     faConfig.fixedWidth = true;
   }
 }

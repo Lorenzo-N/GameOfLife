@@ -57,7 +57,6 @@ export class GameView {
     }
     if (!this.requestId) {
       this.requestId = requestAnimationFrame(() => {
-        console.time('pp');
         this.requestId = null;
         if (this.fullRefresh) {
           this.fullRefresh = false;
@@ -68,7 +67,6 @@ export class GameView {
         } else {
           this.gameLayer.draw(false);
         }
-        console.timeEnd('pp');
       });
     }
     this.hoverLayer.refreshTooltip();

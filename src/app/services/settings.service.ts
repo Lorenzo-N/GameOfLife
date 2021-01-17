@@ -13,6 +13,7 @@ export class SettingsService {
   public colors = true;
   public framesPerUpdate: number;
   public speed = 50;
+  public name = '';
   private readonly statesMap = {
     [CellState.Empty]: {
       name: 'Vuota',
