@@ -57,6 +57,7 @@ export class GameView {
     }
     if (!this.requestId) {
       this.requestId = requestAnimationFrame(() => {
+        console.time('pp');
         this.requestId = null;
         if (this.fullRefresh) {
           this.fullRefresh = false;
@@ -67,6 +68,7 @@ export class GameView {
         } else {
           this.gameLayer.draw(false);
         }
+        console.timeEnd('pp');
       });
     }
     this.hoverLayer.refreshTooltip();
@@ -75,19 +77,22 @@ export class GameView {
   private updateGridInfo(): void {
     const width = this.gameLayer.getCanvas().parentElement.clientWidth;
     const height = this.gameLayer.getCanvas().parentElement.clientHeight;
-    this.gridInfo.canvasWidth = width;
-    this.gridInfo.canvasHeight = height;
-    this.gridInfo.width = Math.min(width, this.gridInfo.cellSize * this.game.getWidth());
-    this.gridInfo.height = Math.min(height, this.gridInfo.cellSize * this.game.getHeight());
+    const info = this.gridInfo;
+    info.canvasWidth = width;
+    info.canvasHeight = height;
+    info.cellSize = Math.floor(Math.min(width / this.game.getWidth(), height / this.game.getHeight()));
+    info.width = Math.min(width, info.cellSize * this.game.getWidth());
+    info.height = Math.min(height, info.cellSize * this.game.getHeight());
+    info.x = (width - info.width) / 2;
+    info.y = (height - info.height) / 2;
   }
 
   private mouseEventToPos(event: MouseEvent): Pos {
     const rect = this.gameLayer.getCanvas().getBoundingClientRect();
     const pos = {
-      i: Math.floor((event.clientX - rect.left) / this.gridInfo.cellSize),
-      j: Math.floor((event.clientY - rect.top) / this.gridInfo.cellSize)
+      i: Math.floor((event.clientX - rect.left - this.gridInfo.x) / this.gridInfo.cellSize),
+      j: Math.floor((event.clientY - rect.top - this.gridInfo.y) / this.gridInfo.cellSize)
     };
-    return (pos.i >= 0 && pos.j >= 0 && pos.i * this.gridInfo.cellSize < this.gridInfo.width &&
-      pos.j * this.gridInfo.cellSize < this.gridInfo.height) ? pos : null;
+    return (pos.i >= 0 && pos.j >= 0 && pos.i < this.game.getWidth() && pos.j < this.game.getHeight()) ? pos : null;
   }
 }

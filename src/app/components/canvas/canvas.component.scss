@@ -1,7 +1,6 @@
 .canvas-container {
   position: relative;
-  border: 2px solid black;
-  margin: 20px;
+  //border: 2px solid black;
 
   canvas {
     position: absolute;
@@ -30,8 +29,7 @@
     visibility: hidden;
     width: 140px;
     border-radius: var(--size);
-    border: #999999 solid 3px;
-    user-select: none;
+    border: #5a5a5a solid 3px;
   }
 
   .tooltip::after {
@@ -43,6 +41,6 @@
     margin-top: 1px;
     border-width: 10px;
     border-style: solid;
-    border-color: #999999 transparent transparent transparent;
+    border-color: #5a5a5a transparent transparent transparent;
   }
 }

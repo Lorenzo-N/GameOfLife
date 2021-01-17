@@ -21,14 +21,15 @@ export class GridLayer {
     }
     this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
     if (this.settings.grid) {
+      this.ctx.strokeStyle = '#7a7a7a';
       this.ctx.beginPath();
       for (let x = 0; x <= this.gridInfo.width; x += this.gridInfo.cellSize) {
-        this.ctx.moveTo(x, 0);
-        this.ctx.lineTo(x, this.gridInfo.height);
+        this.ctx.moveTo(this.gridInfo.x + x, this.gridInfo.y);
+        this.ctx.lineTo(this.gridInfo.x + x, this.gridInfo.y + this.gridInfo.height);
       }
       for (let y = 0; y <= this.gridInfo.height; y += this.gridInfo.cellSize) {
-        this.ctx.moveTo(0, y);
-        this.ctx.lineTo(this.gridInfo.width, y);
+        this.ctx.moveTo(this.gridInfo.x, this.gridInfo.y + y);
+        this.ctx.lineTo(this.gridInfo.x + this.gridInfo.width, this.gridInfo.y + y);
       }
       this.ctx.stroke();
     }

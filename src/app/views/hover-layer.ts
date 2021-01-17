@@ -27,7 +27,8 @@ export class HoverLayer {
     this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
     if (pos) {
       this.ctx.fillStyle = '#00000033';
-      this.ctx.fillRect(pos.i * this.gridInfo.cellSize, pos.j * this.gridInfo.cellSize, this.gridInfo.cellSize, this.gridInfo.cellSize);
+      this.ctx.fillRect(this.gridInfo.x + pos.i * this.gridInfo.cellSize, this.gridInfo.y + pos.j * this.gridInfo.cellSize,
+        this.gridInfo.cellSize, this.gridInfo.cellSize);
       if (this.settings.gameMode === GameMode.Details) {
         this.refreshTooltip(pos);
       }
@@ -40,8 +41,8 @@ export class HoverLayer {
     if (pos) {
       this.tooltipPos = pos;
       this.tooltip.style.visibility = 'visible';
-      this.tooltip.style.left = (pos.i * this.gridInfo.cellSize - 79) + 'px';
-      this.tooltip.style.top = (pos.j * this.gridInfo.cellSize - 85) + 'px';
+      this.tooltip.style.left = (this.gridInfo.x + pos.i * this.gridInfo.cellSize - 79) + 'px';
+      this.tooltip.style.top = (this.gridInfo.y + pos.j * this.gridInfo.cellSize - 85) + 'px';
     }
     if (pos || this.tooltipPos) {
       this.setTooltipContent(pos ?? this.tooltipPos);

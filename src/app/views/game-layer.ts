@@ -24,7 +24,8 @@ export class GameLayer {
       const color = this.settings.getCellColor(cell);
       if (color) {
         this.ctx.fillStyle = color;
-        this.ctx.fillRect(i * this.gridInfo.cellSize, j * this.gridInfo.cellSize, this.gridInfo.cellSize, this.gridInfo.cellSize);
+        this.ctx.fillRect(this.gridInfo.x + i * this.gridInfo.cellSize,
+          this.gridInfo.y + j * this.gridInfo.cellSize, this.gridInfo.cellSize, this.gridInfo.cellSize);
       }
     }));
   }

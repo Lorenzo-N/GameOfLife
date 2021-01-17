@@ -16,7 +16,7 @@ export class SettingsService {
   private readonly statesMap = {
     [CellState.Empty]: {
       name: 'Vuota',
-      color: '#ffffff'
+      color: null
     },
     [CellState.IsolationDead]: {
       name: 'Solitudine',
