@@ -1,5 +1,5 @@
 import {Component, ElementRef, EventEmitter, HostListener, OnInit, Output, ViewChild} from '@angular/core';
-import {GridView} from '../../views/grid-view';
+import {GameView} from '../../views/game-view';
 import {GameService} from '../../services/game.service';
 import {Pos} from '../../interfaces/pos';
 import {SettingsService} from '../../services/settings.service';
@@ -22,7 +22,7 @@ export class CanvasComponent implements OnInit {
   @ViewChild('tooltip', {static: true})
   tooltip: ElementRef<HTMLDivElement>;
 
-  view: GridView;
+  view: GameView;
   cursor = {
     [GameMode.Toggle]: 'pointer',
     [GameMode.Details]: 'pointer',
@@ -34,12 +34,12 @@ export class CanvasComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.view = new GridView(this.gameLayer, this.gridLayer, this.hoverLayer, this.tooltip, this.game, this.settings);
+    this.view = new GameView(this.gameLayer, this.gridLayer, this.hoverLayer, this.tooltip, this.game, this.settings);
     this.view.onClick$.subscribe(pos => this.gridClick.emit(pos));
   }
 
   @HostListener('window:resize', ['$event'])
   onResize(): void {
-    this.view.refresh();
+    this.view.refresh(true);
   }
 }

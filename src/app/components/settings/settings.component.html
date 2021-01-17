@@ -50,6 +50,11 @@
   <mat-slider (input)="settings.setSpeed($event.value)" [value]="settings.speed" max="100" min="0" thumbLabel="true"></mat-slider>
 </div>
 
+<mat-slide-toggle labelPosition="before" (change)="settings.setGrid($event.checked)" [checked]="settings.grid">
+  <fa-icon icon="palette"></fa-icon>
+  <span class="margin-x">Griglia</span>
+</mat-slide-toggle>
+
 <mat-slide-toggle labelPosition="before" (change)="settings.setColors($event.checked)" [checked]="settings.colors">
   <fa-icon icon="palette"></fa-icon>
   <span class="margin-x">Colori</span>

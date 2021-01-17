@@ -35,6 +35,14 @@ export class Game {
     return this.grid;
   }
 
+  getWidth(): number {
+    return this.width;
+  }
+
+  getHeight(): number {
+    return this.height;
+  }
+
   update(): void {
     // console.time('update');
     // Count neighbors
