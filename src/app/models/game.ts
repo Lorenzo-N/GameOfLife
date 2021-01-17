@@ -9,10 +9,12 @@ export class Game {
   public population = 0;
   private initialGridDump: string;
   private grid: Cell[][] = [];
+  private width = 100;
+  private height = 50;
   private updateSubject = new BehaviorSubject<Cell[][]>(null);
   public onUpdate$ = this.updateSubject.asObservable();
 
-  constructor(private size = 50) {
+  constructor() {
     this.clear();
   }
 
@@ -62,9 +64,9 @@ export class Game {
 
   clear(): void {
     this.grid = [];
-    for (let i = 0; i < this.size; ++i) {
+    for (let i = 0; i < this.width; ++i) {
       const row: Cell[] = [];
-      for (let j = 0; j < this.size; ++j) {
+      for (let j = 0; j < this.height; ++j) {
         row.push(new Cell((i + j) % 2 ? CellState.Living : CellState.Empty));
         // row.push(new Cell(0));
       }
@@ -76,19 +78,22 @@ export class Game {
 
   dumps(): string {
     console.log({
-      size: this.size,
+      width: this.width,
+      height: this.height,
       grid: this.grid.map(row => row.map(cell => cell.getState()))
     });
     return JSON.stringify({
-      size: this.size,
+      width: this.width,
+      height: this.height,
       grid: this.grid.map(row => row.map(cell => cell.getState()))
     });
   }
 
   loads(data: string): void {
     try {
-      const obj: { size: number, grid: number[][] } = JSON.parse(data);
-      this.size = obj.size;
+      const obj: { width: number, height: number, grid: number[][] } = JSON.parse(data);
+      this.width = obj.width;
+      this.height = obj.height;
       this.grid = obj.grid.map(row => row.map(cell => new Cell(cell)));
       this.resetHistory();
       this.updateSubject.next(this.grid);

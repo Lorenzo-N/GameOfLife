@@ -53,7 +53,7 @@ export class GridView {
     }
     this.tooltip = tooltip.nativeElement;
     grid.onUpdate$.subscribe(g => this.refresh(g));
-    settings.onUpdate$.subscribe(() => this.refresh(this.grid.getGrid()));
+    settings.onUpdate$.subscribe(() => this.refresh());
   }
 
   onClick(event: MouseEvent): void {
@@ -85,9 +85,9 @@ export class GridView {
     this.tooltipPos = null;
   }
 
-  private refresh(grid: Cell[][]): void {
+  refresh(grid?: Cell[][]): void {
     if (!this.requestId) {
-      this.requestId = requestAnimationFrame(() => this.draw(grid));
+      this.requestId = requestAnimationFrame(() => this.draw(grid ?? this.grid.getGrid()));
     }
     if (this.tooltipPos) {
       this.setTooltipContent(this.tooltipPos);
@@ -117,9 +117,11 @@ export class GridView {
   private draw(grid: Cell[][]): void {
     this.requestId = null;
     // console.time('draw');
+    const width = this.gameCtx.canvas.parentElement.clientWidth;
+    const height = this.gameCtx.canvas.parentElement.clientHeight;
+    this.gameCtx.canvas.width = this.gridCtx.canvas.width = this.hoverCtx.canvas.width = width;
+    this.gameCtx.canvas.height = this.gridCtx.canvas.height = this.hoverCtx.canvas.height = height;
 
-    const width = this.gameCtx.canvas.width;
-    const height = this.gameCtx.canvas.height;
     this.gameCtx.clearRect(0, 0, width, height);
 
     this.width = Math.min(width, this.cellSize * grid.length);

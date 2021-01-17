@@ -1,4 +1,4 @@
-import {Component, ElementRef, EventEmitter, OnInit, Output, ViewChild} from '@angular/core';
+import {Component, ElementRef, EventEmitter, HostListener, OnInit, Output, ViewChild} from '@angular/core';
 import {GridView} from '../../views/grid-view';
 import {GameService} from '../../services/game.service';
 import {Pos} from '../../interfaces/pos';
@@ -38,5 +38,8 @@ export class CanvasComponent implements OnInit {
     this.view.onClick$.subscribe(pos => this.gridClick.emit(pos));
   }
 
-
+  @HostListener('window:resize', ['$event'])
+  onResize(): void {
+    this.view.refresh();
+  }
 }
