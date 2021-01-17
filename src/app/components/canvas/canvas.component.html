@@ -1,4 +1,4 @@
-<div class="canvas-container" (mouseleave)="view.onMouseLeave()" (mousemove)="view.onMouseMove($event)" (click)="view.onClick($event)">
+<div class="canvas-container" (mouseleave)="view.onMouseLeave()" (mousemove)="view.onMouseMove($event)" (click)="view.onClick($event)" [style.cursor]="cursor[settings.gameMode]">
   <canvas #gameLayer class="game" height="800" width="1000"></canvas>
   <canvas #gridLayer class="grid" height="800" width="1000"></canvas>
   <canvas #hoverLayer class="hover" height="800" width="1000"></canvas>

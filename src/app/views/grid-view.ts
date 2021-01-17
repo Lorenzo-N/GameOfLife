@@ -52,14 +52,8 @@ export class GridView {
       throw new Error('Canvas initialization error');
     }
     this.tooltip = tooltip.nativeElement;
-    grid.onUpdate$.subscribe(g => {
-      if (!this.requestId) {
-        this.requestId = requestAnimationFrame(() => this.draw(g));
-      }
-      if (this.tooltipPos) {
-        this.setTooltipContent(this.tooltipPos);
-      }
-    });
+    grid.onUpdate$.subscribe(g => this.refresh(g));
+    settings.onUpdate$.subscribe(() => this.refresh(this.grid.getGrid()));
   }
 
   onClick(event: MouseEvent): void {
@@ -89,6 +83,15 @@ export class GridView {
     this.drawHover();
     this.tooltip.style.visibility = 'hidden';
     this.tooltipPos = null;
+  }
+
+  private refresh(grid: Cell[][]): void {
+    if (!this.requestId) {
+      this.requestId = requestAnimationFrame(() => this.draw(grid));
+    }
+    if (this.tooltipPos) {
+      this.setTooltipContent(this.tooltipPos);
+    }
   }
 
   private setTooltipContent(pos: Pos): void {
@@ -124,8 +127,12 @@ export class GridView {
 
     // Draw pos
     grid.forEach((row, i) => row.forEach((cell, j) => {
-      this.gameCtx.fillStyle = this.statesMap[cell.getState()].color;
-      this.gameCtx.fillRect(i * this.cellSize, j * this.cellSize, this.cellSize, this.cellSize);
+      const state = this.settings.colors ? cell.getState() : (cell.isLiving() ? CellState.Living : CellState.Empty);
+      const color = this.statesMap[state].color;
+      if (color) {
+        this.gameCtx.fillStyle = color;
+        this.gameCtx.fillRect(i * this.cellSize, j * this.cellSize, this.cellSize, this.cellSize);
+      }
     }));
 
     // Draw grid

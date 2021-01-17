@@ -31,6 +31,7 @@
     width: 140px;
     border-radius: var(--size);
     border: #999999 solid 3px;
+    user-select: none;
   }
 
   .tooltip::after {

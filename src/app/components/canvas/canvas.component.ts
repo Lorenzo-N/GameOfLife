@@ -3,6 +3,7 @@ import {GridView} from '../../views/grid-view';
 import {GameService} from '../../services/game.service';
 import {Pos} from '../../interfaces/pos';
 import {SettingsService} from '../../services/settings.service';
+import {GameMode} from '../../interfaces/game-mode';
 
 @Component({
   selector: 'app-canvas',
@@ -22,8 +23,14 @@ export class CanvasComponent implements OnInit {
   tooltip: ElementRef<HTMLDivElement>;
 
   view: GridView;
+  cursor = {
+    [GameMode.Toggle]: 'pointer',
+    [GameMode.Details]: 'pointer',
+    [GameMode.Edit]: 'copy',
+    [GameMode.Erase]: 'default'
+  };
 
-  constructor(public game: GameService, private settings: SettingsService) {
+  constructor(public game: GameService, public settings: SettingsService) {
   }
 
   ngOnInit(): void {

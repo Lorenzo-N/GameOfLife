@@ -29,6 +29,10 @@ export class Game {
     return this.grid[pos.i]?.[pos.j];
   }
 
+  getGrid(): Cell[][] {
+    return this.grid;
+  }
+
   update(): void {
     // console.time('update');
     // Count neighbors
