@@ -19,18 +19,20 @@
 }
 
 fa-icon {
-  color: #00000099;
-}
-
-mat-button-toggle-group {
-  span.text {
-    display: inline-block;
-    width: 65px;
-    text-align: left;
-    margin-left: var(--size);
-  }
+  color: var(--primary)
 }
 
 span.text {
+  display: inline-block;
+  width: 65px;
+  text-align: left;
+  margin-left: var(--size);
+}
+
+span.menu-text {
+  margin-left: var(--size);
+}
+
+.options {
   margin-left: var(--size);
 }

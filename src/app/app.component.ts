@@ -9,7 +9,7 @@ import {GameMode} from './interfaces/game-mode';
   template: `
     <app-settings class="bg-surface padding col overflow-y-auto"></app-settings>
     <div class="col flex">
-      <div class="row">
+      <div class="row center margin-s">
         <img src="assets/logo.png" alt="logo" height="50px">
       </div>
       <app-canvas (gridClick)="onGridClick($event)" class="col flex overflow-hidden"></app-canvas>

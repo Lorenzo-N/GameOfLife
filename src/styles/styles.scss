@@ -197,7 +197,7 @@ html, body {
 }
 
 .c-info {
-  color: var(--info);
+  color: var(--info) !important;
 }
 
 .c-disabled {

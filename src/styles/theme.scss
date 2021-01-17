@@ -75,8 +75,8 @@ $warn: mat-palette($mat-red);
 
 $app-theme: mat-light-theme((
   color: (
-    primary: $accent,
-    accent: $primary,
+    primary: $primary,
+    accent: $accent,
     warn: $warn
   )
 ));
@@ -132,9 +132,16 @@ button.size-xl {
 }
 
 .mat-slide-toggle-label {
-  padding-right: 12px;
+  padding-right: 8px;
 
   .mat-slide-toggle-content {
     flex: 1;
+  }
+}
+
+.mat-button-toggle-checked {
+  background-color: #f1c232aa;
+  fa-icon {
+    color: #6e6e6e !important;
   }
 }

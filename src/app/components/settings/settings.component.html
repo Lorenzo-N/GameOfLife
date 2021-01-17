@@ -26,17 +26,17 @@
   <div class="flex"></div>
 </div>
 
-<button [matMenuTriggerFor]="examplesMenu" class="margin margin-x-l" color="primary" mat-stroked-button>
+<button [matMenuTriggerFor]="examplesMenu" class="margin margin-x-l" mat-raised-button>
   <fa-icon icon="archive"></fa-icon>
-  Esempi
+  <span class="text">Esempi<fa-icon icon="caret-down" class="c-info"></fa-icon></span>
 </button>
-<button (click)="save()" class="margin margin-x-l" color="primary" mat-raised-button>
+<button (click)="save()" class="margin margin-x-l" mat-raised-button>
   <fa-icon icon="save"></fa-icon>
-  Salva
+  <span class="text">Salva</span>
 </button>
 <button (click)="file.click()" class="margin margin-x-l" mat-raised-button>
   <fa-icon icon="file-upload"></fa-icon>
-  Carica
+  <span class="text">Carica</span>
 </button>
 
 <input #file (change)="load($event)" class="hide" type="file"/>
@@ -45,24 +45,26 @@
   Opzioni
   <div class="flex"></div>
 </div>
-<div class="row center-y">
-  <fa-icon icon="tachometer-alt"></fa-icon>
-  <mat-slider (input)="settings.setSpeed($event.value)" [value]="settings.speed" max="100" min="0" thumbLabel="true"></mat-slider>
+<div class="col options">
+  <div class="row center-y">
+    <fa-icon icon="tachometer-alt"></fa-icon>
+    <mat-slider (input)="settings.setSpeed($event.value)" [value]="settings.speed" max="100" min="0" thumbLabel="true"></mat-slider>
+  </div>
+
+  <mat-slide-toggle labelPosition="before" (change)="settings.setGrid($event.checked)" [checked]="settings.grid" class="margin-y">
+    <fa-icon icon="border-all"></fa-icon>
+    <span class="margin-x">Griglia</span>
+  </mat-slide-toggle>
+
+  <mat-slide-toggle labelPosition="before" (change)="settings.setColors($event.checked)" [checked]="settings.colors" class="margin-y">
+    <fa-icon icon="palette"></fa-icon>
+    <span class="margin-x">Colori</span>
+  </mat-slide-toggle>
 </div>
-
-<mat-slide-toggle labelPosition="before" (change)="settings.setGrid($event.checked)" [checked]="settings.grid">
-  <fa-icon icon="palette"></fa-icon>
-  <span class="margin-x">Griglia</span>
-</mat-slide-toggle>
-
-<mat-slide-toggle labelPosition="before" (change)="settings.setColors($event.checked)" [checked]="settings.colors">
-  <fa-icon icon="palette"></fa-icon>
-  <span class="margin-x">Colori</span>
-</mat-slide-toggle>
 
 <!--Menu-->
 <mat-menu #examplesMenu="matMenu">
   <button mat-menu-item *ngFor="let example of examples" (click)="loadExample(example)">
-    <fa-icon [icon]="example.icon"></fa-icon>
-    <span class="text">{{example.name}}</span></button>
+    <fa-icon class="c-accent" [icon]="example.icon"></fa-icon>
+    <span class="menu-text">{{example.name}}</span></button>
 </mat-menu>

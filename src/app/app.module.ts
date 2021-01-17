@@ -10,7 +10,7 @@ import {FormsModule} from '@angular/forms';
 import {ControlsComponent} from './components/controls/controls.component';
 import {FaConfig, FaIconLibrary, FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 import {
-  faArchive,
+  faArchive, faBorderAll, faCaretDown,
   faChess,
   faCogs,
   faCrosshairs,
@@ -59,8 +59,8 @@ import {faHubspot} from '@fortawesome/free-brands-svg-icons';
 })
 export class AppModule {
   constructor(library: FaIconLibrary, faConfig: FaConfig) {
-    library.addIcons(faPlay, faPause, faStepForward, faUndoAlt, faTimes, faPen, faEraser, faCrosshairs, faGamepad, faCogs,
-      faSearch, faHandPointer, faSave, faFileUpload, faArchive, faTachometerAlt, faPalette, faChess, faGem, faHubspot);
+    library.addIcons(faPlay, faPause, faStepForward, faUndoAlt, faTimes, faPen, faEraser, faCrosshairs, faGamepad, faCogs, faBorderAll,
+      faSearch, faHandPointer, faSave, faFileUpload, faArchive, faTachometerAlt, faPalette, faChess, faGem, faHubspot, faCaretDown);
     faConfig.fixedWidth = true;
   }
 }

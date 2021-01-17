@@ -21,19 +21,19 @@ export class SettingsService {
     },
     [CellState.IsolationDead]: {
       name: 'Solitudine',
-      color: '#ff000033'
+      color: '#fddd7b'
     },
     [CellState.OverpopulationDead]: {
       name: 'Sovrappopolazione',
-      color: '#ee770033'
+      color: '#fabf76'
     },
     [CellState.Born]: {
       name: 'Nascita',
-      color: '#007700'
+      color: '#67e232'
     },
     [CellState.Living]: {
       name: 'In vita',
-      color: '#00cc00'
+      color: '#479f21'
     }
   };
   private updateSubject = new Subject();
