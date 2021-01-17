@@ -35,6 +35,7 @@ import {MatButtonToggleModule} from '@angular/material/button-toggle';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {faHubspot} from '@fortawesome/free-brands-svg-icons';
+import {MatTooltipModule} from '@angular/material/tooltip';
 
 @NgModule({
   declarations: [
@@ -51,6 +52,7 @@ import {faHubspot} from '@fortawesome/free-brands-svg-icons';
     MatMenuModule,
     MatSliderModule,
     MatSlideToggleModule,
+    MatTooltipModule,
     FormsModule,
     FontAwesomeModule
   ],

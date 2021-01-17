@@ -47,17 +47,17 @@
 </div>
 <div class="col options">
   <div class="row center-y">
-    <fa-icon icon="tachometer-alt"></fa-icon>
+    <fa-icon icon="tachometer-alt" matTooltip="Velocità"></fa-icon>
     <mat-slider (input)="settings.setSpeed($event.value)" [value]="settings.speed" max="100" min="0" thumbLabel="true"></mat-slider>
   </div>
 
   <mat-slide-toggle labelPosition="before" (change)="settings.setGrid($event.checked)" [checked]="settings.grid" class="margin-y">
-    <fa-icon icon="border-all"></fa-icon>
+    <fa-icon icon="border-all" matTooltip="Visualizza griglia"></fa-icon>
     <span class="margin-x">Griglia</span>
   </mat-slide-toggle>
 
   <mat-slide-toggle labelPosition="before" (change)="settings.setColors($event.checked)" [checked]="settings.colors" class="margin-y">
-    <fa-icon icon="palette"></fa-icon>
+    <fa-icon icon="palette" matTooltip="Colori stati"></fa-icon>
     <span class="margin-x">Colori</span>
   </mat-slide-toggle>
 </div>

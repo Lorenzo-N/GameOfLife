@@ -1,11 +1,11 @@
 <div class="row center-y">
-  <button (click)="reset()" class="size-l" color="accent" mat-icon-button>
+  <button (click)="reset()" [matTooltip]="game.time === 0 ? 'Cancella' : 'Reset'" class="size-l" color="accent" mat-icon-button>
     <fa-icon [icon]="game.time === 0 ? 'times' : 'undo-alt'"></fa-icon>
   </button>
-  <button (click)="toggleAnimation()" class="size-xl" color="accent" mat-icon-button>
+  <button (click)="toggleAnimation()" [matTooltip]="animationService.isRunning ? 'Pausa' : 'Play'" class="size-xl" color="accent" mat-icon-button>
     <fa-icon [icon]="animationService.isRunning ? 'pause' : 'play'"></fa-icon>
   </button>
-  <button (click)="update()" class="size-l" color="accent" mat-icon-button>
+  <button (click)="update()" matTooltip="Avanti" class="size-l" color="accent" mat-icon-button>
     <fa-icon icon="step-forward"></fa-icon>
   </button>
 </div>
