@@ -28,10 +28,15 @@ export class ControlsComponent {
     } else {
       this.game.resetInitialGrid();
     }
+    this.animationService.endTransition();
   }
 
   update(): void {
-    this.game.update();
+    if (this.animationService.isInTransition()) {
+      this.animationService.endTransition();
+    } else {
+      this.game.update();
+    }
   }
 
 }

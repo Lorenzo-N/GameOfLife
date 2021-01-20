@@ -29,7 +29,7 @@ export class GameView {
     this.hoverLayer = new HoverLayer(hoverLayer, tooltip, this.gridInfo, game, settings);
     this.refresh(true);
     game.onUpdate$.subscribe(() => this.refresh(false));
-    settings.onUpdate$.subscribe(() => this.refresh(true));
+    settings.onUpdate$.subscribe(fullRefresh => this.refresh(fullRefresh));
   }
 
   onClick(event: MouseEvent): void {

@@ -5,8 +5,10 @@ export class Cell {
   private livingTime = 0;
   private lastLivingTime = 0;
   private lastEmptyTime = 0;
+  private lastState;
 
   constructor(private state = CellState.Empty) {
+    this.lastState = state;
   }
 
   isLiving(): boolean {
@@ -15,6 +17,14 @@ export class Cell {
 
   getState(): CellState {
     return this.state;
+  }
+
+  getLastState(): CellState {
+    return this.lastState;
+  }
+
+  wasLiving(): boolean {
+    return this.lastState === CellState.Born || this.lastState === CellState.Living;
   }
 
   // Set state based on living value. If living is null, toggle the cell.
@@ -26,6 +36,7 @@ export class Cell {
     } else {
       this.state = this.isLiving() ? CellState.Empty : CellState.Living;
     }
+    this.lastState = this.state;
   }
 
   setNeighbors(neighbors: number): void {
@@ -33,6 +44,7 @@ export class Cell {
   }
 
   update(): void {
+    this.lastState = this.state;
     if (this.isLiving() && this.neighbors <= 1) {
       this.state = CellState.IsolationDead;
     } else if (this.isLiving() && this.neighbors >= 4) {

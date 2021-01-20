@@ -60,6 +60,11 @@
     <fa-icon icon="palette" matTooltip="Colori stati"></fa-icon>
     <span class="margin-x">Colori</span>
   </mat-slide-toggle>
+
+  <mat-slide-toggle labelPosition="before" (change)="settings.setTransitions($event.checked)" [checked]="settings.transitions" class="margin-y">
+    <fa-icon icon="play-circle" matTooltip="Animazioni transizioni"></fa-icon>
+    <span class="margin-x">Smooth</span>
+  </mat-slide-toggle>
 </div>
 
 <!--Menu-->

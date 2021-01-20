@@ -2,7 +2,6 @@ import {BehaviorSubject} from 'rxjs';
 import {Pos} from '../interfaces/pos';
 import {Cell} from './cell';
 
-
 export class Game {
   public time = 0;
   public population = 0;
