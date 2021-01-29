@@ -24,8 +24,15 @@ export class GameLayer {
       const color = this.settings.getCellColor(cell);
       if (color) {
         this.ctx.fillStyle = color;
-        this.ctx.fillRect(this.gridInfo.x + i * this.gridInfo.cellSize,
-          this.gridInfo.y + j * this.gridInfo.cellSize, this.gridInfo.cellSize, this.gridInfo.cellSize);
+        if (this.settings.circles) {
+          this.ctx.beginPath();
+          this.ctx.arc(this.gridInfo.x + i * this.gridInfo.cellSize + this.gridInfo.cellSize / 2,
+            this.gridInfo.y + j * this.gridInfo.cellSize + this.gridInfo.cellSize / 2, this.gridInfo.cellSize / 2 - 1, 0, 2 * Math.PI);
+          this.ctx.fill();
+        } else {
+          this.ctx.fillRect(this.gridInfo.x + i * this.gridInfo.cellSize,
+            this.gridInfo.y + j * this.gridInfo.cellSize, this.gridInfo.cellSize, this.gridInfo.cellSize);
+        }
       }
     }));
   }

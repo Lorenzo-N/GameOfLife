@@ -12,5 +12,8 @@
 <div class="col game-info">
   <div class="name">{{settings.name}}</div>
   <div><span class="info">Tempo:</span><span class="value">{{game.time}}</span></div>
-  <div><span class="info">Popolazione:</span><span class="value">{{game.population}}</span></div>
+  <div><span class="info">Popolazione:</span>
+    <span class="value">
+      {{game.population}}<fa-icon *ngIf="game.lastPopulation < game.population" class="population-icon up" icon="caret-up"></fa-icon><fa-icon *ngIf="game.lastPopulation > game.population" class="population-icon down" icon="caret-down"></fa-icon></span>
+  </div>
 </div>

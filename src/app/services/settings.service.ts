@@ -10,6 +10,7 @@ import {Cell} from '../models/cell';
 export class SettingsService {
   public gameMode = GameMode.Toggle;
   public grid = true;
+  public circles = true;
   public colors = true;
   public transitions = false;
   public framesPerUpdate: number;
@@ -65,12 +66,17 @@ export class SettingsService {
 
   setColors(value: boolean): void {
     this.colors = value;
-    this.updateSubject.next(true);
+    this.updateSubject.next(false);
   }
 
   setGrid(value: boolean): void {
     this.grid = value;
     this.updateSubject.next(true);
+  }
+
+  setCircles(value: boolean): void {
+    this.circles = value;
+    this.updateSubject.next(false);
   }
 
   setTransitions(value: boolean): void {

@@ -4,6 +4,7 @@ import {Cell} from './cell';
 
 export class Game {
   public time = 0;
+  public lastPopulation = 0;
   public population = 0;
   private initialGridDump: string;
   private grid: Cell[][] = [];
@@ -55,6 +56,7 @@ export class Game {
       cell.setNeighbors(neighbors);
     }));
     // Update cells and info
+    this.lastPopulation = this.population;
     this.population = 0;
     this.grid.forEach(row => row.forEach(cell => {
       cell.update();
@@ -113,6 +115,7 @@ export class Game {
         this.population++;
       }
     }));
+    this.lastPopulation = this.population;
     this.initialGridDump = this.dumps();
   }
 }

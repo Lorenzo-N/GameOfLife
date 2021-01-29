@@ -13,6 +13,7 @@ import {
   faArchive,
   faBorderAll,
   faCaretDown,
+  faCaretUp,
   faChess,
   faCogs,
   faCrosshairs,
@@ -39,6 +40,7 @@ import {MatMenuModule} from '@angular/material/menu';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {faHubspot} from '@fortawesome/free-brands-svg-icons';
 import {MatTooltipModule} from '@angular/material/tooltip';
+import {faCircle} from '@fortawesome/free-regular-svg-icons';
 
 @NgModule({
   declarations: [
@@ -66,7 +68,7 @@ export class AppModule {
   constructor(library: FaIconLibrary, faConfig: FaConfig) {
     library.addIcons(faPlay, faPause, faStepForward, faUndoAlt, faTimes, faPen, faEraser, faCrosshairs, faGamepad, faCogs, faBorderAll,
       faSearch, faHandPointer, faSave, faFileUpload, faArchive, faTachometerAlt, faPalette, faChess, faGem, faHubspot, faCaretDown,
-      faPlayCircle);
+      faPlayCircle, faCaretUp, faCaretDown, faCircle);
     faConfig.fixedWidth = true;
   }
 }

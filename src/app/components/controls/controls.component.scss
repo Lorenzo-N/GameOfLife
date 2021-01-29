@@ -6,3 +6,12 @@
 .game-info {
   margin-left: 70px;
 }
+
+.population-icon {
+  &.up {
+    color: var(--primary);
+  }
+  &.down {
+    color: var(--error);
+  }
+}

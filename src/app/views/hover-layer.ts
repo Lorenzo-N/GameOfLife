@@ -27,8 +27,16 @@ export class HoverLayer {
     this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
     if (pos) {
       this.ctx.fillStyle = '#00000033';
-      this.ctx.fillRect(this.gridInfo.x + pos.i * this.gridInfo.cellSize, this.gridInfo.y + pos.j * this.gridInfo.cellSize,
-        this.gridInfo.cellSize, this.gridInfo.cellSize);
+      if (this.settings.circles) {
+        this.ctx.beginPath();
+        this.ctx.arc(this.gridInfo.x + pos.i * this.gridInfo.cellSize + this.gridInfo.cellSize / 2,
+          this.gridInfo.y + pos.j * this.gridInfo.cellSize + this.gridInfo.cellSize / 2, this.gridInfo.cellSize / 2 - 1, 0, 2 * Math.PI);
+        this.ctx.fill();
+      } else {
+        this.ctx.fillRect(this.gridInfo.x + pos.i * this.gridInfo.cellSize, this.gridInfo.y + pos.j * this.gridInfo.cellSize,
+          this.gridInfo.cellSize, this.gridInfo.cellSize);
+      }
+
       if (this.settings.gameMode === GameMode.Details) {
         this.refreshTooltip(pos);
       }

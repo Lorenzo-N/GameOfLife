@@ -56,6 +56,11 @@
     <span class="margin-x">Griglia</span>
   </mat-slide-toggle>
 
+  <mat-slide-toggle labelPosition="before" (change)="settings.setCircles($event.checked)" [checked]="settings.circles" class="margin-y">
+    <fa-icon [icon]="['far', 'circle']" matTooltip="Visualizza cerchi"></fa-icon>
+    <span class="margin-x">Cerchi</span>
+  </mat-slide-toggle>
+
   <mat-slide-toggle labelPosition="before" (change)="settings.setColors($event.checked)" [checked]="settings.colors" class="margin-y">
     <fa-icon icon="palette" matTooltip="Colori stati"></fa-icon>
     <span class="margin-x">Colori</span>
