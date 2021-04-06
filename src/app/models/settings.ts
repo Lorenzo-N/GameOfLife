@@ -2,12 +2,12 @@ import {Injectable} from '@angular/core';
 import {GameMode} from '../interfaces/game-mode';
 import {Subject} from 'rxjs';
 import {CellState} from '../interfaces/cell-state';
-import {Cell} from '../models/cell';
+import {Cell} from './cell';
 
 @Injectable({
   providedIn: 'root'
 })
-export class SettingsService {
+export class Settings {
   public gameMode = GameMode.Toggle;
   public grid = true;
   public circles = true;
@@ -90,7 +90,7 @@ export class SettingsService {
     colors.forEach(color1 => {
       colors.forEach(color2 => {
         if (color1 !== color2) {
-          this.transitionsColors[color1 + color2] = SettingsService.interpolateColors(color1, color2, ratio);
+          this.transitionsColors[color1 + color2] = Settings.interpolateColors(color1, color2, ratio);
         }
       });
     });

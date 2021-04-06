@@ -1,13 +1,13 @@
 import {Game} from '../models/game';
 import {ElementRef} from '@angular/core';
-import {SettingsService} from '../services/settings.service';
 import {GridInfo} from '../interfaces/grid-info';
+import {Settings} from '../models/settings';
 
 export class GameLayer {
   private readonly ctx: CanvasRenderingContext2D;
 
   constructor(canvas: ElementRef<HTMLCanvasElement>, private gridInfo: GridInfo,
-              private game: Game, private settings: SettingsService) {
+              private game: Game, private settings: Settings) {
     this.ctx = canvas?.nativeElement?.getContext('2d');
     if (!this.ctx) {
       throw new Error('Canvas initialization error');

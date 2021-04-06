@@ -2,12 +2,12 @@ import {Pos} from '../interfaces/pos';
 import {Game} from '../models/game';
 import {ElementRef} from '@angular/core';
 import {Subject} from 'rxjs';
-import {SettingsService} from '../services/settings.service';
 import {GameMode} from '../interfaces/game-mode';
 import {HoverLayer} from './hover-layer';
 import {GridInfo} from '../interfaces/grid-info';
 import {GridLayer} from './grid-layer';
 import {GameLayer} from './game-layer';
+import {Settings} from '../models/settings';
 
 export class GameView {
   private readonly gameLayer: GameLayer;
@@ -23,7 +23,7 @@ export class GameView {
 
   constructor(gameLayer: ElementRef<HTMLCanvasElement>, gridLayer: ElementRef<HTMLCanvasElement>,
               hoverLayer: ElementRef<HTMLCanvasElement>, tooltip: ElementRef<HTMLDivElement>,
-              private game: Game, private settings: SettingsService) {
+              private game: Game, private settings: Settings) {
     this.gameLayer = new GameLayer(gameLayer, this.gridInfo, game, settings);
     this.gridLayer = new GridLayer(gridLayer, this.gridInfo, game, settings);
     this.hoverLayer = new HoverLayer(hoverLayer, tooltip, this.gridInfo, game, settings);

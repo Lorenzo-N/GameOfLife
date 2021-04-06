@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {AnimationService} from '../../services/animation.service';
-import {GameService} from '../../services/game.service';
-import {SettingsService} from '../../services/settings.service';
+import {Settings} from '../../models/settings';
+import {Game} from '../../models/game';
 
 @Component({
   selector: 'app-controls',
@@ -10,7 +10,7 @@ import {SettingsService} from '../../services/settings.service';
 })
 export class ControlsComponent {
 
-  constructor(public game: GameService, public animationService: AnimationService, public settings: SettingsService) {
+  constructor(public game: Game, public animationService: AnimationService, public settings: Settings) {
   }
 
   toggleAnimation(): void {

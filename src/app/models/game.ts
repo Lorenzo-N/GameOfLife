@@ -1,7 +1,11 @@
 import {BehaviorSubject} from 'rxjs';
 import {Pos} from '../interfaces/pos';
 import {Cell} from './cell';
+import {Injectable} from '@angular/core';
 
+@Injectable({
+  providedIn: 'root'
+})
 export class Game {
   public time = 0;
   public lastPopulation = 0;

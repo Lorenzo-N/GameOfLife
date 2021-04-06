@@ -1,6 +1,6 @@
 import {Injectable, OnDestroy} from '@angular/core';
-import {GameService} from './game.service';
-import {SettingsService} from './settings.service';
+import {Settings} from '../models/settings';
+import {Game} from '../models/game';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +11,7 @@ export class AnimationService implements OnDestroy {
   private time = 0;
   private transitionTime = 0.5;
 
-  constructor(private game: GameService, private settings: SettingsService) {
+  constructor(private game: Game, private settings: Settings) {
   }
 
 

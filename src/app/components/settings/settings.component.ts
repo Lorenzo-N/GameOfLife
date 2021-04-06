@@ -1,9 +1,9 @@
 import {Component} from '@angular/core';
-import {GameService} from '../../services/game.service';
 import {saveAs} from 'file-saver';
 import {GameMode} from '../../interfaces/game-mode';
-import {SettingsService} from '../../services/settings.service';
 import {examples} from '../../examples/examples';
+import {Settings} from '../../models/settings';
+import {Game} from '../../models/game';
 
 @Component({
   selector: 'app-settings',
@@ -14,7 +14,7 @@ export class SettingsComponent {
   readonly GameMode = GameMode;
   readonly examples = examples;
 
-  constructor(private game: GameService, public settings: SettingsService) {
+  constructor(private game: Game, public settings: Settings) {
     this.loadExample(examples[0]);
   }
 

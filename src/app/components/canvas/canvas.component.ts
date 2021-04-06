@@ -1,9 +1,9 @@
 import {Component, ElementRef, EventEmitter, HostListener, OnInit, Output, ViewChild} from '@angular/core';
 import {GameView} from '../../views/game-view';
-import {GameService} from '../../services/game.service';
 import {Pos} from '../../interfaces/pos';
-import {SettingsService} from '../../services/settings.service';
 import {GameMode} from '../../interfaces/game-mode';
+import {Settings} from '../../models/settings';
+import {Game} from '../../models/game';
 
 @Component({
   selector: 'app-canvas',
@@ -30,7 +30,7 @@ export class CanvasComponent implements OnInit {
     [GameMode.Erase]: 'default'
   };
 
-  constructor(public game: GameService, public settings: SettingsService) {
+  constructor(private game: Game, public settings: Settings) {
   }
 
   ngOnInit(): void {

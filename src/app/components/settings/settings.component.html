@@ -2,24 +2,26 @@
   Modalità
   <div class="flex"></div>
 </div>
-<mat-button-toggle-group [(ngModel)]="settings.gameMode" class="margin margin-x-l" vertical>
-  <mat-button-toggle [value]="GameMode.Toggle">
-    <fa-icon icon="hand-pointer"></fa-icon>
-    <span class="text">Toggle</span>
-  </mat-button-toggle>
-  <mat-button-toggle [value]="GameMode.Details">
-    <fa-icon icon="search"></fa-icon>
-    <span class="text">Dettagli</span>
-  </mat-button-toggle>
-  <mat-button-toggle [value]="GameMode.Edit">
-    <fa-icon icon="pen"></fa-icon>
-    <span class="text">Penna</span>
-  </mat-button-toggle>
-  <mat-button-toggle [value]="GameMode.Erase">
-    <fa-icon icon="eraser"></fa-icon>
-    <span class="text">Gomma</span>
-  </mat-button-toggle>
-</mat-button-toggle-group>
+<div class="button-wrapper margin margin-x-l">
+  <mat-button-toggle-group [(ngModel)]="settings.gameMode" vertical>
+    <mat-button-toggle [value]="GameMode.Toggle">
+      <fa-icon icon="hand-pointer"></fa-icon>
+      <span class="text">Toggle</span>
+    </mat-button-toggle>
+    <mat-button-toggle [value]="GameMode.Details">
+      <fa-icon icon="search"></fa-icon>
+      <span class="text">Dettagli</span>
+    </mat-button-toggle>
+    <mat-button-toggle [value]="GameMode.Edit">
+      <fa-icon icon="pen"></fa-icon>
+      <span class="text">Penna</span>
+    </mat-button-toggle>
+    <mat-button-toggle [value]="GameMode.Erase">
+      <fa-icon icon="eraser"></fa-icon>
+      <span class="text">Gomma</span>
+    </mat-button-toggle>
+  </mat-button-toggle-group>
+</div>
 
 <div class="title row center-y">
   Carica/Salva
