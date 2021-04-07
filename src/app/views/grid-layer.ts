@@ -4,6 +4,9 @@ import {GridInfo} from '../interfaces/grid-info';
 import {Settings} from '../models/settings';
 
 export class GridLayer {
+  /**
+   * Layer della vista che si occupa di disegnare la griglia di gioco.
+   */
   private readonly ctx: CanvasRenderingContext2D;
 
   constructor(canvas: ElementRef<HTMLCanvasElement>, private gridInfo: GridInfo,
@@ -23,7 +26,7 @@ export class GridLayer {
     this.ctx.strokeStyle = '#7a7a7a';
     this.ctx.beginPath();
     if (this.settings.grid) {
-      // Draw grid
+      // In base ai settings disegna la griglia
       for (let x = 0; x <= this.gridInfo.width; x += this.gridInfo.cellSize) {
         this.ctx.moveTo(this.gridInfo.x + x, this.gridInfo.y);
         this.ctx.lineTo(this.gridInfo.x + x, this.gridInfo.y + this.gridInfo.height);
@@ -33,7 +36,7 @@ export class GridLayer {
         this.ctx.lineTo(this.gridInfo.x + this.gridInfo.width, this.gridInfo.y + y);
       }
     } else {
-      // Draw border only
+      // Oppure soltanto i bordi
       this.ctx.moveTo(this.gridInfo.x, this.gridInfo.y);
       this.ctx.lineTo(this.gridInfo.x + this.gridInfo.width, this.gridInfo.y);
       this.ctx.lineTo(this.gridInfo.x + this.gridInfo.width, this.gridInfo.y + this.gridInfo.height);

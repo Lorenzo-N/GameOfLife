@@ -11,6 +11,9 @@ import {Game} from '../../models/game';
   styleUrls: ['./canvas.component.scss']
 })
 export class CanvasComponent implements OnInit {
+  /**
+   * Definisce gli elementi html ai quali si aggancia la vista GameView.
+   */
   @Output() gridClick = new EventEmitter<Pos>();
 
   @ViewChild('gameLayer', {static: true})
@@ -34,7 +37,9 @@ export class CanvasComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    // Crea la vista GameView passando come riferimento i componenti html e i modelli Game e Settings
     this.view = new GameView(this.gameLayer, this.gridLayer, this.hoverLayer, this.tooltip, this.game, this.settings);
+    // Propaga l'evento di click sul GameView fino al componente padre (app.component)
     this.view.onClick$.subscribe(pos => this.gridClick.emit(pos));
   }
 

@@ -8,10 +8,15 @@ import {Cell} from './cell';
   providedIn: 'root'
 })
 export class Settings {
+  /**
+   * Modello che gestisce le impostazioni grafiche e di gioco.
+   * I modelli non dipendono da niente e vengono quindi implementati come singleton utilizzando la dependency injection di Angular.
+   */
   public gameMode = GameMode.Toggle;
   public grid = true;
   public circles = true;
   public colors = true;
+  // La modalità smooth (transitions = true) cambia gradualmente il colore di ogni cella invece che passare direttamente da uno stato all'altro
   public transitions = false;
   public framesPerUpdate: number;
   public speed = 50;
@@ -39,6 +44,8 @@ export class Settings {
       color: '#479f21'
     }
   };
+  // Espone l'evento onUpdate$ per notificare un aggiornamento del modello.
+  // Emette un bool che se true richiede un aggiornamento completo dell'interfaccia.
   private updateSubject = new Subject<boolean>();
   public onUpdate$ = this.updateSubject.asObservable();
 
@@ -47,6 +54,7 @@ export class Settings {
   }
 
   private static interpolateColors(color1: string, color2: string, ratio: number): string {
+    // Interpolazione di due colori per la modalità smooth
     const hex = (x: number) => {
       const res = x.toString(16);
       return (res.length === 1) ? '0' + res : res;
@@ -85,6 +93,9 @@ export class Settings {
   }
 
   setTransitionsColors(ratio: number, update: boolean): void {
+    // Nella modalità smooth calcola una volta per frame i colori da assegnare a ogni possibile transizione considerando
+    // l'interpolazione tra i due colori al ratio corrente (che indica l'avanzamento della transizione tra 0 e 1)
+    // e salva i colori calcolati in transitionsColors
     this.transitionsColors = {};
     const colors = Object.values(this.statesMap).map(v => v.color ?? '#f9f9f9');
     colors.forEach(color1 => {
@@ -100,8 +111,11 @@ export class Settings {
   }
 
   getCellColor(cell: Cell): string {
+    // Ritorna il colore della cella in base ai settings e al suo stato
     const state = this.colors ? cell.getState() : (cell.isLiving() ? CellState.Living : CellState.Empty);
     const lastState = this.colors ? cell.getLastState() : (cell.wasLiving() ? CellState.Living : CellState.Empty);
+    // Se è abilitata la modalità smooth riprende il colore della cella da transitionsColors. In questo modo non viene fatta
+    // l'interpolazione ogni frame per ogni cella ma solo una volta per frame migliorando le performance.
     if (state !== lastState && this.transitions) {
       return this.transitionsColors[(this.statesMap[lastState].color ?? '#f9f9f9') +
       (this.statesMap[state].color ?? '#f9f9f9')];
@@ -114,7 +128,7 @@ export class Settings {
   }
 
   private onSpeedUpdate(): void {
-    // Map speed [0, 100] to frames per update [70, 1]
+    // Converte la velocità [0, 100] in frames per update [70, 1]
     this.framesPerUpdate = Math.round(70 - Math.log(1 + this.speed) * 15);
   }
 }

@@ -18,6 +18,9 @@ import {Game} from './models/game';
   `
 })
 export class AppComponent {
+  /**
+   * Componente principale: gestisce l'evento di click sulla vista andando a modificare il modello Game.
+   */
   @HostBinding('class') class = 'row flex';
 
   constructor(private game: Game, private settings: Settings) {
@@ -25,6 +28,7 @@ export class AppComponent {
 
   onGridClick(pos: Pos): void {
     this.settings.name = 'Schema manuale';
+    // Modifica una cella in base alla modalità selezionata
     if (this.settings.gameMode === GameMode.Toggle || this.settings.gameMode === GameMode.Details) {
       this.game.setCell(pos);
     } else {

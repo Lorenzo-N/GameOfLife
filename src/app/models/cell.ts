@@ -1,6 +1,9 @@
 import {CellState} from '../interfaces/cell-state';
 
 export class Cell {
+  /**
+   * Fa parte del modello Game e gestisce l'aggiornamento di ogni cella della griglia.
+   */
   private neighbors = 0;
   private livingTime = 0;
   private lastLivingTime = 0;
@@ -27,8 +30,8 @@ export class Cell {
     return this.lastState === CellState.Born || this.lastState === CellState.Living;
   }
 
-  // Set state based on living value. If living is null, toggle the cell.
   set(living: boolean = null): void {
+    // Imposta una cella con il valore di living. Se living è null, allora fa il toggle sulla cella.
     if (living) {
       this.state = CellState.Living;
     } else if (living === false) {
@@ -44,6 +47,7 @@ export class Cell {
   }
 
   update(): void {
+    // Aggiorna lo stato della cella in base alle regole del gioco.
     this.lastState = this.state;
     if (this.isLiving() && this.neighbors <= 1) {
       this.state = CellState.IsolationDead;
@@ -57,6 +61,7 @@ export class Cell {
       this.state = CellState.Empty;
     }
 
+    // Aggiorna la storia della cella
     if (this.isLiving()) {
       this.livingTime++;
       this.lastLivingTime++;
